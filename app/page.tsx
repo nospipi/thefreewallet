@@ -21,16 +21,14 @@ const Home = async () => {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-          <div className="w-7 h-7 border-4 border-indigo-600 border-t-transparent border-solid rounded-full animate-spin"></div>
+        <div className="flex flex-1 items-center justify-center bg-gray-100 ">
+          <div className="w-7 h-7 border-4 border-theme-darkBrown border-t-transparent border-solid rounded-full animate-spin"></div>
         </div>
       }
     >
-      <div className="flex-1 bg-theme-offWhite">
-        <TransactionsList />
-      </div>
+      <TransactionsList />
     </Suspense>
-  )
+  );
 }
 
 export default Home

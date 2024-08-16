@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
@@ -8,6 +8,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      scale: {
+        "102": "1.02",
+        "103": "1.03",
+      },
+      variants: {
+        extend: {
+          scale: ["hover"],
+        },
+      },
       colors: {
         theme: {
           lightPeach: "#f1d4b4",
@@ -23,5 +32,5 @@ const config: Config = {
     },
   },
   plugins: [],
-}
-export default config
+};
+export default config;

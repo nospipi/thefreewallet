@@ -27,23 +27,25 @@ const TransactionsList = async () => {
   }
 
   return (
-    <div className="flex-1 bg-theme-offWhite">
-      {transactions.map((transaction: any) => {
-        return (
-          <TransactionItem
-            key={transaction._id.toString()}
-            id={transaction._id.toString()}
-            description={transaction.description}
-            date={moment(transaction.date).format("ddd DD MMM YYYY")}
-            created_at={moment(transaction.createdAt).format(
-              "ddd MM YY hh:mm A"
-            )}
-            amount={transaction.amount}
-          />
-        )
-      })}
+    <div className="flex flex-1 p-4 bg-gray-100">
+      <div className="max-w-5xl mx-auto">
+        {transactions.map((transaction: any) => {
+          return (
+            <TransactionItem
+              key={transaction._id.toString()}
+              id={transaction._id.toString()}
+              description={transaction.description}
+              date={moment(transaction.date).format("ddd DD MMM YYYY")}
+              created_at={moment(transaction.createdAt).format(
+                "ddd MM YY hh:mm A"
+              )}
+              amount={transaction.amount}
+            />
+          );
+        })}
+      </div>
     </div>
-  )
+  );
 }
 
 export default TransactionsList

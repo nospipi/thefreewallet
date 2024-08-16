@@ -39,7 +39,7 @@ const RootLayout = async ({
         </AppRouterCacheProvider>
       </body>
     </html>
-  )
+  );
 }
 
 export default RootLayout

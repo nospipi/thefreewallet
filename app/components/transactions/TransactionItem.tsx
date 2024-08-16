@@ -1,24 +1,22 @@
-import React from "react"
-import Link from "next/link"
+import Link from "next/link";
 
 interface TransactionItemProps {
-  id: string
-  description: string
-  date: string
-  created_at: string
-  amount: number
+  id: string;
+  description: string;
+  date: string;
+  created_at: string;
+  amount: number;
 }
-
-const TransactionItem: React.FC<TransactionItemProps> = ({
+const TransactionItem = ({
   id,
   description,
   date,
   created_at,
   amount,
-}) => {
+}: TransactionItemProps) => {
   return (
     <Link href="/transaction/[id]" as={`/transactions/${id}`}>
-      <div className="bg-white shadow-md rounded-lg p-4 flex justify-between items-center mb-4">
+      <div className="bg-white shadow-md rounded-lg p-4 flex justify-between items-center mb-4 hover:shadow-lg hover:scale-102 transition transform duration-200">
         <div className="space-y-2">
           <h4 className="font-semibold text-gray-800">{description}</h4>
           <div className="text-sm text-gray-500">Date: {date}</div>
@@ -30,12 +28,12 @@ const TransactionItem: React.FC<TransactionItemProps> = ({
               amount >= 0 ? "text-theme-darkGreen" : "text-theme-indianRed"
             }`}
           >
-            €{amount.toFixed(2)}
+            <strong>€{amount.toFixed(2)}</strong>
           </p>
         </div>
       </div>
     </Link>
-  )
-}
+  );
+};
 
-export default TransactionItem
+export default TransactionItem;
