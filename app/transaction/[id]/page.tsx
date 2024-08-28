@@ -9,11 +9,11 @@ import { redirect } from "next/navigation";
 
 //-----------------------------------------------------------------------------
 
-const TransactionDetailPage = async () => {
+const TransactionPage = async () => {
   const headerList = headers();
   //passed from middleware.ts
   const pathname = headerList.get("x-current-path");
-  const id = pathname?.match(/\/transactions\/([^\/]+)/) as string[];
+  const id = pathname?.match(/\/transaction\/([^\/]+)/) as string[];
 
   const session = await getServerSession();
   await connectDB();
@@ -26,6 +26,18 @@ const TransactionDetailPage = async () => {
     _id: id[1],
     user: session?.user?.email,
   });
+
+  if (!transaction) {
+    return (
+      <div
+        className="
+        flex items-center justify-center h-screen bg-theme-offWhite text-theme-darkBrown
+    "
+      >
+        Transaction not found
+      </div>
+    );
+  }
 
   return (
     <Suspense
@@ -64,12 +76,12 @@ const TransactionDetailPage = async () => {
             </strong>
           </p>
           <div className="flex space-x-4 mt-6 justify-end">
-            <Link href={`/transactions/${id[1]}/edit`}>
+            <Link href={`/transaction/${id[1]}/edit`}>
               <button className="px-4 py-2 bg-theme-darkBrown text-white rounded-md shadow-sm hover:bg-opacity-90">
                 Edit
               </button>
             </Link>
-            <Link href="/">
+            <Link href={`/wallet/${transaction.wallet_id}`}>
               <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md shadow-sm hover:bg-gray-300">
                 Back
               </button>
@@ -81,4 +93,4 @@ const TransactionDetailPage = async () => {
   );
 };
 
-export default TransactionDetailPage;
+export default TransactionPage;

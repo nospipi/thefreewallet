@@ -8,10 +8,10 @@ const walletSchema = new Schema(
   {
     title: { type: String, required: true },
     user: { type: String, required: true },
-    balance: { type: Number, required: true },
+    balance: { type: Number, required: true, default: 0 },
   },
   { timestamps: true }
-)
+);
 
 const categorySchema = new Schema(
   {
@@ -19,12 +19,12 @@ const categorySchema = new Schema(
     user: { type: String, required: true },
   },
   { timestamps: true }
-)
+);
 
 const transactionSchema = new Schema(
   {
-    wallet: { type: Schema.Types.ObjectId, ref: "wallet", required: true },
-    category: { type: Schema.Types.ObjectId, ref: "category", required: true },
+    wallet_id: { type: String, required: true },
+    category_id: { type: String, required: true },
     user: { type: String, required: true },
     amount: { type: Number, required: true },
     date: {
@@ -35,26 +35,26 @@ const transactionSchema = new Schema(
     description: { type: String, required: true },
   },
   { timestamps: true }
-)
+);
 
 transactionSchema.pre("save", async function (next) {
   try {
-    const wallet = await mongoose.model("wallet").findById(this.wallet)
+    const wallet = await mongoose.model("wallet").findById(this.wallet_id);
     if (!wallet) {
-      throw new Error("Wallet not found")
+      throw new Error("Wallet not found");
     }
 
     // Accumulate the wallet's balance
-    wallet.balance += this.amount
+    wallet.balance += this.amount;
 
     // Save the updated wallet
-    await wallet.save()
+    await wallet.save();
 
-    next()
+    next();
   } catch (error: any) {
-    next(error)
+    next(error);
   }
-})
+});
 
 //--------------------------------------------------------------
 //@ts-expect-error

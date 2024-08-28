@@ -1,26 +1,21 @@
 // components/EntryForm.js
 "use client";
-
+import { useFormStatus } from "react-dom";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import TextField from "@mui/material/TextField";
+import { toast } from "react-hot-toast";
+
+//---------------------------------------------------------
 
 const WalletForm = () => {
+  const { pending } = useFormStatus();
   const [title, setTitle] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // Here, you would typically send the title to your API or directly to your database
-    // Example:
-    // await fetch('/api/entries', { method: 'POST', body: JSON.stringify({ title }) });
-
-    alert("Entry submitted: " + title);
-    router.push("/"); // Redirect to home or another desired page after submission
-  };
-
-  const handleCancel = () => {
-    router.back(); // Go back to the previous page
+    toast.success(`Wallet ${title} created successfully`);
   };
 
   return (
@@ -48,7 +43,7 @@ const WalletForm = () => {
         </button>
         <button
           type="button"
-          onClick={handleCancel}
+          //onClick={handleCancel}
           className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md shadow-sm hover:bg-gray-300"
         >
           Cancel

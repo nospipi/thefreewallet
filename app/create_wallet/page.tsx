@@ -1,4 +1,4 @@
-import WalletForm from "./WalletForm";
+import WalletForm from "./WalletFormClient";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
