@@ -19,6 +19,7 @@
     "formik": "^2.4.6",
     "moment": "^2.30.1",
     "mongoose": "^8.5.3",
+    "mongoose-unique-validator": "^5.0.1",
     "next": "latest",
     "next-auth": "^5.0.0-beta.20",
     "react": "^18",

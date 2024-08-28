@@ -12,7 +12,7 @@ const TransactionDetailPage = async () => {
   //passed from middleware.ts
   const pathname = headerList.get("x-current-path")
   const wallet_id = pathname?.match(/\/wallet\/([^\/]+)/) as string[]
-  console.log(wallet_id[1])
+
 
   const session = await auth()
   await connectDB()

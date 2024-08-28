@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+const uniqueValidator = require("mongoose-unique-validator");
 import moment from "moment"
 const { Schema, model } = mongoose
 
@@ -6,12 +7,22 @@ const { Schema, model } = mongoose
 
 const walletSchema = new Schema(
   {
-    title: { type: String, required: true },
+    title: {
+      type: String,
+      required: true,
+      unique: true,
+      uniqueCaseInsensitive: true,
+      maxlength: 20,
+    },
     user: { type: String, required: true },
     balance: { type: Number, required: true, default: 0 },
   },
   { timestamps: true }
 );
+
+walletSchema.plugin(uniqueValidator, {
+  message: "{PATH} {VALUE} already exists.",
+}); //https://www.npmjs.com/package/mongoose-unique-validator
 
 const categorySchema = new Schema(
   {

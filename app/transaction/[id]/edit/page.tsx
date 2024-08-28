@@ -1,16 +1,8 @@
-import EditTransactionForm from "./EditTransactionForm"
-import { auth } from "@/auth"
-import { redirect } from "next/navigation"
+import EditTransactionForm from "./EditTransactionForm";
 
 //-------------------------------------------------------------------------
 
 const TransactionEditPage = async () => {
-  const session = await auth()
-
-  if (!session || !session.user) {
-    redirect("/api/auth/signin")
-  }
-
   return (
     <div className="flex flex-1 items-center justify-center bg-gray-100 p-8">
       <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
@@ -20,7 +12,7 @@ const TransactionEditPage = async () => {
         <EditTransactionForm />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TransactionEditPage
+export default TransactionEditPage;

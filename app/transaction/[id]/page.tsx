@@ -5,27 +5,23 @@ import { headers } from "next/headers"
 import connectDB from "../../../db.connect"
 const { TransactionModel } = require("../../../models")
 import moment from "moment"
-import { redirect } from "next/navigation"
+
 
 //-----------------------------------------------------------------------------
 
 const TransactionPage = async () => {
-  const headerList = headers()
+  const headerList = headers();
   //passed from middleware.ts
-  const pathname = headerList.get("x-current-path")
-  const id = pathname?.match(/\/transaction\/([^\/]+)/) as string[]
+  const pathname = headerList.get("x-current-path");
+  const id = pathname?.match(/\/transaction\/([^\/]+)/) as string[];
 
-  const session = await auth()
-  await connectDB()
-
-  if (!session || !session.user) {
-    redirect("/api/auth/signin")
-  }
+  const session = await auth();
+  await connectDB();
 
   const transaction = await TransactionModel.findOne({
     _id: id[1],
     user: session?.user?.email,
-  })
+  });
 
   if (!transaction) {
     return (
@@ -36,7 +32,7 @@ const TransactionPage = async () => {
       >
         Transaction not found
       </div>
-    )
+    );
   }
 
   return (
@@ -77,12 +73,12 @@ const TransactionPage = async () => {
           </p>
           <div className="flex space-x-4 mt-6 justify-end">
             <Link href={`/transaction/${id[1]}/edit`}>
-              <button className="px-4 py-2 bg-theme-darkBrown text-white rounded-md shadow-sm hover:bg-opacity-90">
+              <button className="px-4 py-2 bg-theme-darkBrown text-white rounded-md shadow-sm hover:bg-opacity-90 select-none">
                 Edit
               </button>
             </Link>
             <Link href={`/wallet/${transaction.wallet_id}`}>
-              <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md shadow-sm hover:bg-gray-300">
+              <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md shadow-sm hover:bg-gray-300 select-none">
                 Back
               </button>
             </Link>
@@ -90,7 +86,7 @@ const TransactionPage = async () => {
         </div>
       </div>
     </Suspense>
-  )
+  );
 }
 
 export default TransactionPage

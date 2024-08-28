@@ -1,16 +1,8 @@
-import WalletForm from "./WalletFormClient"
-import { auth } from "@/auth"
-import { redirect } from "next/navigation"
+import WalletForm from "./WalletForm.client";
 
 //--------------------------------------------------------------
 
 const AddEntryPage = async () => {
-  const session = await auth()
-
-  if (!session || !session.user) {
-    redirect("/api/auth/signin")
-  }
-
   return (
     <div className="flex flex-1 items-center justify-center bg-gray-100 p-8">
       <div className="bg-white p-8 rounded shadow-md max-w-md w-full">
@@ -20,7 +12,7 @@ const AddEntryPage = async () => {
         <WalletForm />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AddEntryPage
+export default AddEntryPage;

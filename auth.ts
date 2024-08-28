@@ -1,16 +1,17 @@
-import NextAuth, { User, NextAuthConfig } from "next-auth"
-import Google from "next-auth/providers/google"
+import NextAuth, { NextAuthConfig } from "next-auth";
+import Google from "next-auth/providers/google";
 
 //--------------------------------------------------------------------------
 
-export const BASE_PATH = "/welcome"
+export const BASE_PATH = "/welcome";
 
 const authOptions: NextAuthConfig = {
   pages: {
-    signIn: "../../../welcome",
-    signOut: "/",
-    // error: "/auth/error",
-    // verifyRequest: "/auth/verify-request",
+    signIn: "/welcome",
+    //signOut: "/welcome",
+    error: "/welcome",
+    //verifyRequest: "/auth/verify-request", // (used for check email message in credentials provider)
+    //newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
   },
   providers: [
     Google({
@@ -19,6 +20,6 @@ const authOptions: NextAuthConfig = {
     }),
   ],
   //basePath: BASE_PATH,
-}
+};
 
-export const { handlers, auth, signIn, signOut } = NextAuth(authOptions)
+export const { handlers, auth, signIn, signOut } = NextAuth(authOptions);

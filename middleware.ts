@@ -1,33 +1,31 @@
 import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
-import { auth, BASE_PATH } from "@/auth"
+import { auth } from "@/auth";
 
 //--------------------------------------------------------------------------
-
-export function middleware(request: NextRequest) {
-  // Add a new header x-current-path which passes the path to downstream components
-  const headers = new Headers(request.headers)
-  headers.set("x-current-path", request.nextUrl.pathname)
-  return NextResponse.next({ headers })
-}
 
 export const config = {
   matcher: [
     // match all routes except static files and APIs
     "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],
-}
+};
 
 export default auth((req) => {
-  const reqUrl = new URL(req.url)
-  if (!req.auth && reqUrl?.pathname !== "/") {
+  const headers = new Headers(req.headers);
+  headers.set("x-current-path", req.nextUrl.pathname);
+
+  const reqUrl = new URL(req.url);
+  if (!req.auth && reqUrl?.pathname !== "/welcome") {
+    console.log("not authenticated");
     return NextResponse.redirect(
-      new URL(
-        `${BASE_PATH}/signin?callbackUrl=${encodeURIComponent(
-          reqUrl?.pathname
-        )}`,
-        req.url
-      )
-    )
+      new URL(`/welcome?callbackUrl=${encodeURI(reqUrl?.pathname)}`, req.url)
+    );
   }
-})
+
+  return NextResponse.next({ headers });
+});
+
+
+
+
+
