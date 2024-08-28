@@ -1,14 +1,14 @@
-import { getServerSession } from "next-auth"
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
+import { auth } from "@/auth"
+import { redirect } from "next/navigation"
+import { Suspense } from "react"
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
   useQuery,
-} from "@tanstack/react-query";
-import SignOutBtn from "./SignOutBtn";
-import Link from "next/link";
+} from "@tanstack/react-query"
+import SignOutBtn from "./SignOutBtn"
+import Link from "next/link"
 
 //--------------------------------------------------------------
 
@@ -16,13 +16,13 @@ const wallets = [
   { _id: "66bf3c5eee63e17cb3cfb04e", title: "MAY 2024" },
   { _id: "2222222222222222", title: "JUNE 2024" },
   { _id: "3333333333333333", title: "JULY 2024" },
-];
+]
 
 const Home = async () => {
-  const session = await getServerSession();
+  const session = await auth()
 
   if (!session || !session.user) {
-    redirect("/api/auth/signin");
+    redirect("/api/auth/signin")
   }
   return (
     <Suspense
@@ -57,7 +57,7 @@ const Home = async () => {
         <SignOutBtn />
       </div>
     </Suspense>
-  );
-};
+  )
+}
 
 export default Home

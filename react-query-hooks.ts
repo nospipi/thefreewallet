@@ -11,29 +11,6 @@ import axios from "axios"
 
 //with axios
 
-const getWhoAmI = async () => {
-  const response = await axios.get(`/api/whoAmI`)
-
-  if (response.status !== 200) {
-    throw new Error("Network response was not ok")
-  }
-
-  return response.data
-}
-
-export const useGetWhoAmI = () => {
-  return useQuery({
-    queryKey: ["WHO_AM_I"],
-    queryFn: getWhoAmI,
-    //every 5 seconds
-    //refetchInterval: 5000,
-    //every one minute
-    //refetchInterval: 60000,
-    //every 30 seconds
-    refetchInterval: 5000,
-  })
-}
-
 export const useGetTransactions = () => {
   return useQuery({
     queryKey: ["TRANSACTIONS"],

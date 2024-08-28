@@ -1,14 +1,14 @@
-import WalletForm from "./WalletFormClient";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import WalletForm from "./WalletFormClient"
+import { auth } from "@/auth"
+import { redirect } from "next/navigation"
 
 //--------------------------------------------------------------
 
 const AddEntryPage = async () => {
-  const session = await getServerSession();
+  const session = await auth()
 
   if (!session || !session.user) {
-    redirect("/api/auth/signin");
+    redirect("/api/auth/signin")
   }
 
   return (
@@ -20,7 +20,7 @@ const AddEntryPage = async () => {
         <WalletForm />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AddEntryPage;
+export default AddEntryPage

@@ -1,14 +1,14 @@
-import EditTransactionForm from "./EditTransactionForm";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import EditTransactionForm from "./EditTransactionForm"
+import { auth } from "@/auth"
+import { redirect } from "next/navigation"
 
 //-------------------------------------------------------------------------
 
 const TransactionEditPage = async () => {
-  const session = await getServerSession();
+  const session = await auth()
 
   if (!session || !session.user) {
-    redirect("/api/auth/signin");
+    redirect("/api/auth/signin")
   }
 
   return (
@@ -20,7 +20,7 @@ const TransactionEditPage = async () => {
         <EditTransactionForm />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TransactionEditPage;
+export default TransactionEditPage

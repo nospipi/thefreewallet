@@ -1,31 +1,31 @@
-import { Suspense } from "react";
-import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { headers } from "next/headers";
-import connectDB from "../../../db.connect";
-const { TransactionModel } = require("../../../models");
-import moment from "moment";
-import { redirect } from "next/navigation";
+import { Suspense } from "react"
+import Link from "next/link"
+import { auth } from "@/auth"
+import { headers } from "next/headers"
+import connectDB from "../../../db.connect"
+const { TransactionModel } = require("../../../models")
+import moment from "moment"
+import { redirect } from "next/navigation"
 
 //-----------------------------------------------------------------------------
 
 const TransactionPage = async () => {
-  const headerList = headers();
+  const headerList = headers()
   //passed from middleware.ts
-  const pathname = headerList.get("x-current-path");
-  const id = pathname?.match(/\/transaction\/([^\/]+)/) as string[];
+  const pathname = headerList.get("x-current-path")
+  const id = pathname?.match(/\/transaction\/([^\/]+)/) as string[]
 
-  const session = await getServerSession();
-  await connectDB();
+  const session = await auth()
+  await connectDB()
 
   if (!session || !session.user) {
-    redirect("/api/auth/signin");
+    redirect("/api/auth/signin")
   }
 
   const transaction = await TransactionModel.findOne({
     _id: id[1],
     user: session?.user?.email,
-  });
+  })
 
   if (!transaction) {
     return (
@@ -36,7 +36,7 @@ const TransactionPage = async () => {
       >
         Transaction not found
       </div>
-    );
+    )
   }
 
   return (
@@ -90,7 +90,7 @@ const TransactionPage = async () => {
         </div>
       </div>
     </Suspense>
-  );
-};
+  )
+}
 
-export default TransactionPage;
+export default TransactionPage

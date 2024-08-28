@@ -1,14 +1,14 @@
 "use client"
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import HomeIcon from "@mui/icons-material/Home";
-import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react"
+import Image from "next/image"
+import HomeIcon from "@mui/icons-material/Home"
+import { usePathname } from "next/navigation"
 
 //-------------------------------------------------------------------------
 const NavMenu = () => {
-  const pathname = usePathname();
-  const isHome = pathname === "/";
-  const { data: session } = useSession();
+  const pathname = usePathname()
+  const isHome = pathname === "/"
+  const { data: session } = useSession()
   return (
     <div className="flex justify-between items-center sticky top-0 bg-theme-darkBrown text-theme-offWhite p-4 z-10">
       {/* HOME BUTTON */}
@@ -30,7 +30,7 @@ const NavMenu = () => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default NavMenu
