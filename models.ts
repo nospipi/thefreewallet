@@ -10,8 +10,6 @@ const walletSchema = new Schema(
     title: {
       type: String,
       required: true,
-      unique: true,
-      uniqueCaseInsensitive: true,
       maxlength: 20,
     },
     user: { type: String, required: true },
@@ -19,6 +17,8 @@ const walletSchema = new Schema(
   },
   { timestamps: true }
 );
+
+walletSchema.index({ user: 1, title: 1 }, { unique: true });
 
 walletSchema.plugin(uniqueValidator, {
   message: "{PATH} {VALUE} already exists.",

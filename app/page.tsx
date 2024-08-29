@@ -5,7 +5,7 @@ import { Suspense } from "react";
 //   QueryClient,
 //   useQuery,
 // } from "@tanstack/react-query"
-import SignOutBtn from "./SignOutBtn";
+
 import Link from "next/link";
 
 //--------------------------------------------------------------
@@ -47,7 +47,6 @@ const Home = async () => {
             ))}
           </div>
         </div>
-        <SignOutBtn />
       </div>
     </Suspense>
   );
