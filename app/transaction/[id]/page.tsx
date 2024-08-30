@@ -4,42 +4,42 @@ import { auth } from "@/auth"
 import { headers } from "next/headers"
 import connectDB from "../../../db.connect"
 const { TransactionModel } = require("../../../models")
+import DeleteBtn from "../DeleteBtn"
 import moment from "moment"
-
 
 //-----------------------------------------------------------------------------
 
 const TransactionPage = async () => {
-  const headerList = headers();
+  const headerList = headers()
   //passed from middleware.ts
-  const pathname = headerList.get("x-current-path");
-  const id = pathname?.match(/\/transaction\/([^\/]+)/) as string[];
+  const pathname = headerList.get("x-current-path")
+  const id = pathname?.match(/\/transaction\/([^\/]+)/) as string[]
 
-  const session = await auth();
-  await connectDB();
+  const session = await auth()
+  await connectDB()
 
   const transaction = await TransactionModel.findOne({
     _id: id[1],
     user: session?.user?.email,
-  });
+  })
 
   if (!transaction) {
     return (
       <div
         className="
-        flex items-center justify-center h-screen bg-theme-offWhite text-theme-darkBrown
+        flex items-center justify-center h-screen bg-theme-white text-theme-dark
     "
       >
         Transaction not found
       </div>
-    );
+    )
   }
 
   return (
     <Suspense
       fallback={
         <div className="flex flex-1 items-center justify-center bg-gray-100">
-          <div className="w-7 h-7 border-4 border-theme-darkBrown border-t-transparent border-solid rounded-full animate-spin"></div>
+          <div className="w-7 h-7 border-4 border-theme-dark border-t-transparent border-solid rounded-full animate-spin"></div>
         </div>
       }
     >
@@ -72,8 +72,9 @@ const TransactionPage = async () => {
             </strong>
           </p>
           <div className="flex space-x-4 mt-6 justify-end">
+            <DeleteBtn />
             <Link href={`/transaction/${id[1]}/edit`}>
-              <button className="px-4 py-2 bg-theme-darkBrown text-white rounded-md shadow-sm hover:bg-opacity-90 select-none">
+              <button className="px-4 py-2 bg-theme-dark text-white rounded-md shadow-sm hover:bg-opacity-90 select-none">
                 Edit
               </button>
             </Link>
@@ -86,7 +87,7 @@ const TransactionPage = async () => {
         </div>
       </div>
     </Suspense>
-  );
+  )
 }
 
 export default TransactionPage

@@ -27,7 +27,7 @@ const RootLayout = async ({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} flex flex-col min-h-screen bg-theme-lightPeach`}
+        className={`${inter.className} flex flex-col min-h-screen bg-theme-lightBlue`}
       >
         <AppRouterCacheProvider>
           <SessionProvider session={session}>

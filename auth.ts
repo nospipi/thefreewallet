@@ -1,9 +1,9 @@
-import NextAuth, { NextAuthConfig } from "next-auth";
-import Google from "next-auth/providers/google";
+import NextAuth, { NextAuthConfig } from "next-auth"
+import Google from "next-auth/providers/google"
 
 //--------------------------------------------------------------------------
 
-export const BASE_PATH = "/welcome";
+export const BASE_PATH = "/welcome"
 
 const authOptions: NextAuthConfig = {
   pages: {
@@ -20,6 +20,14 @@ const authOptions: NextAuthConfig = {
     }),
   ],
   //basePath: BASE_PATH,
-};
+}
 
-export const { handlers, auth, signIn, signOut } = NextAuth(authOptions);
+export const { handlers, auth, signIn, signOut } = NextAuth(authOptions)
+
+// "@types/react": "npm:types-react@rc",
+// "@types/react-dom": "npm:types-react-dom@rc",
+
+// "overrides": {
+//   "@types/react": "npm:types-react@rc",
+//   "@types/react-dom": "npm:types-react-dom@rc"
+// },

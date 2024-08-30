@@ -1,7 +1,7 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { Formik, Field, Form } from "formik";
-import * as Yup from "yup";
+"use client"
+import { useRouter } from "next/navigation"
+import { Formik, Field, Form } from "formik"
+import * as Yup from "yup"
 
 // Define the validation schema
 const validationSchema = Yup.object({
@@ -10,10 +10,10 @@ const validationSchema = Yup.object({
   amount: Yup.number()
     .required("Amount is required")
     .positive("Amount must be positive"),
-});
+})
 
 const EditTransactionForm = () => {
-  const router = useRouter();
+  const router = useRouter()
 
   //   useEffect(() => {
   //     // Simulate fetching transaction data
@@ -31,8 +31,8 @@ const EditTransactionForm = () => {
 
   const handleSubmit = (values: any) => {
     // Replace with actual form submission logic
-    console.log("Form values:", values);
-  };
+    console.log("Form values:", values)
+  }
 
   return (
     <Formik
@@ -103,7 +103,7 @@ const EditTransactionForm = () => {
           <div className="flex space-x-4 mt-6 justify-end">
             <button
               type="submit"
-              className="px-4 py-2 bg-theme-darkBrown text-white rounded-md shadow-sm hover:bg-opacity-90"
+              className="px-4 py-2 bg-theme-dark text-white rounded-md shadow-sm hover:bg-opacity-90"
             >
               Submit
             </button>
@@ -119,7 +119,7 @@ const EditTransactionForm = () => {
         </Form>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default EditTransactionForm;
+export default EditTransactionForm

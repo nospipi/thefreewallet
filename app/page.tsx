@@ -1,4 +1,8 @@
-import { Suspense } from "react";
+import { Suspense } from "react"
+import connectDB from "../db.connect"
+const { WalletModel } = require("../models")
+import { auth } from "@/auth"
+import Link from "next/link"
 // import {
 //   dehydrate,
 //   HydrationBoundary,
@@ -6,22 +10,20 @@ import { Suspense } from "react";
 //   useQuery,
 // } from "@tanstack/react-query"
 
-import Link from "next/link";
-
 //--------------------------------------------------------------
 
-const wallets = [
-  { _id: "66bf3c5eee63e17cb3cfb04e", title: "MAY 2024" },
-  { _id: "2222222222222222", title: "JUNE 2024" },
-  { _id: "3333333333333333", title: "JULY 2024" },
-];
-
 const Home = async () => {
+  const session = await auth()
+  const user = session?.user?.email as string
+  await connectDB()
+
+  const wallets = await WalletModel.find({ user }).sort({ _id: -1 })
+
   return (
     <Suspense
       fallback={
         <div className="flex flex-1 items-center justify-center bg-gray-100 ">
-          <div className="w-7 h-7 border-4 border-theme-darkBrown border-t-transparent border-solid rounded-full animate-spin"></div>
+          <div className="w-7 h-7 border-4 border-theme-dark border-t-transparent border-solid rounded-full animate-spin"></div>
         </div>
       }
     >
@@ -33,15 +35,27 @@ const Home = async () => {
           </h1>
 
           <Link href="/create_wallet">
-            <button className="w-full mb-4 px-4 py-2 bg-theme-darkBrown text-white rounded-md hover:bg-opacity-90">
+            <button className="w-full mb-4 px-4 py-2 bg-theme-dark text-white rounded-md hover:bg-opacity-90">
               Create New Wallet
             </button>
           </Link>
-          <div className="flex flex-col space-y-2">
-            {wallets.map((wallet) => (
+          <div className="flex flex-col space-y-2 h-64 overflow-y-auto">
+            {wallets.map((wallet: any) => (
               <Link key={wallet._id} href={`/wallet/${wallet._id}`}>
-                <button className="w-full px-4 py-2 bg-theme-lightPeach text-black rounded-md hover:bg-opacity-80">
-                  {wallet.title}
+                <button className="w-full flex justify-between gap-1 px-4 py-2 bg-white text-black hover:bg-theme-darkWhite">
+                  <span>{wallet.title}</span>
+                  <span className="text-sm text-gray-500">
+                    Balance{" "}
+                    <span
+                      className={`${
+                        wallet.balance >= 0
+                          ? "text-theme-darkGreen"
+                          : "text-theme-indianRed"
+                      }`}
+                    >
+                      {wallet.balance}
+                    </span>
+                  </span>
                 </button>
               </Link>
             ))}
@@ -49,7 +63,7 @@ const Home = async () => {
         </div>
       </div>
     </Suspense>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

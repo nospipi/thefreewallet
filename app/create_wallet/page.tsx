@@ -1,4 +1,4 @@
-import WalletForm from "./WalletForm.client";
+import NewWalletForm from "./NewWalletForm.client"
 
 //--------------------------------------------------------------
 
@@ -9,10 +9,10 @@ const AddEntryPage = async () => {
         <h2 className="text-2xl font-semibold mb-6 text-gray-700 text-center">
           Add a New Wallet
         </h2>
-        <WalletForm />
+        <NewWalletForm />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AddEntryPage;
+export default AddEntryPage
