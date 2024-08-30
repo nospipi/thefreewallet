@@ -37,7 +37,6 @@ const NavMenu = () => {
       <div className="flex flex-1 justify-end items-center space-x-4">
         <span>{session?.user?.email}</span>
         <IconButton
-          variant="contained"
           onClick={handleClick}
           sx={{
             padding: "0",
@@ -68,17 +67,9 @@ const NavMenu = () => {
       >
         <Button
           onClick={() => (window.location.href = "/api/auth/signout")}
-          variant="contained"
+          variant="text"
           sx={{
-            color: "white",
-            backgroundColor: "indianred",
-            margin: "5px",
             fontSize: "11px",
-            ":hover": {
-              backgroundColor: "indianred",
-              opacity: "0.9",
-              transition: "all 0.3s",
-            },
           }}
         >
           Sign Out

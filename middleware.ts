@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 
 //--------------------------------------------------------------------------
@@ -6,9 +6,15 @@ import { auth } from "@/auth";
 export const config = {
   matcher: [
     // match all routes except static files and APIs
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    //"/((?!api|_next/static|_next/image|favicon.ico).*)",
+    {
+      source:
+        "/((?!api|_next/static|_next/image|favicon.ico|.*\\.server\\.tsx$).*)",
+    },
   ],
 };
+
+//https://github.com/vercel/next.js/issues/50659
 
 export default auth((req) => {
   const headers = new Headers(req.headers);
@@ -23,9 +29,6 @@ export default auth((req) => {
   }
 
   return NextResponse.next({ headers });
+
+  //return NextResponse.next();
 });
-
-
-
-
-
