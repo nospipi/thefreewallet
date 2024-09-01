@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-
+html {
+  height: 100vh;
+}
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* Prevent body from scrolling */
+  display: flex;
+  flex-direction: column;
+}
+.last-row{
+  width: 100%;
+  min-width: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background: #8d8d8d;
+}

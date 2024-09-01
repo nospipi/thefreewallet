@@ -28,7 +28,7 @@ const Home = async () => {
       }
     >
       {/* <TransactionsList /> */}
-      <div className="flex flex-1 items-center justify-center bg-gray-100 p-8 relative">
+      <div className="flex flex-1 items-center justify-center bg-gray-100 p-8 h-full">
         <div className="bg-white p-8 rounded shadow-md max-w-md w-full">
           <h1 className="text-2xl font-semibold text-gray-800 mb-6">
             Select Wallet
@@ -63,7 +63,7 @@ const Home = async () => {
         </div>
       </div>
     </Suspense>
-  )
+  );
 }
 
 export default Home

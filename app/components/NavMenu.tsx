@@ -25,9 +25,7 @@ const NavMenu = () => {
   const isHome = pathname === "/"
   const { data: session } = useSession()
   return (
-    <div className="flex justify-between items-center sticky top-0 bg-theme-dark text-theme-white p-4 z-10">
-      {/* HOME BUTTON */}
-
+    <nav className="flex justify-between items-center top-0 left-0 w-full bg-gray-800 text-white p-4 z-10">
       {!isHome && (
         <WalletIcon
           className="cursor-pointer"
@@ -76,8 +74,9 @@ const NavMenu = () => {
           Sign Out
         </Button>
       </Popover>
-    </div>
-  )
+      {/* </div> */}
+    </nav>
+  );
 }
 
 export default NavMenu

@@ -1,15 +1,14 @@
 "use server"
 const { TransactionModel } = require("../../../../models")
 import { auth } from "@/auth"
-import connectDB from "../../../../db.connect"
-import { headers } from "next/headers"
-import { revalidatePath } from "next/cache"
+import connectDB from "../../../../db.connect";
+import { revalidatePath } from "next/cache";
 
 //------------------------------------------------------------------------------
 
 export interface IActionState {
-  success: string | null
-  error: string | null
+  success: string | null;
+  error: string | null;
 }
 
 const createTransaction = async (
@@ -17,36 +16,34 @@ const createTransaction = async (
   formData: FormData
 ): Promise<IActionState> => {
   try {
-    await connectDB()
-    const headerList = headers()
-    const pathname = headerList.get("x-current-path")
-    const segments = pathname?.split("/") || []
-    const id = segments[2] || ""
-    const session = await auth()
-    const description = formData.get("description") as string
-    const amount = formData.get("amount") as string
-    const date = formData.get("date") as string
-    const user = session?.user?.email as string
-    const type = formData.get("type") as string
+    await connectDB();
+    const session = await auth();
+    const description = formData.get("description") as string;
+    const amount = formData.get("amount") as string;
+    const date = formData.get("date") as string;
+    const user = session?.user?.email as string;
+    const type = formData.get("type") as string;
+    const wallet_id = formData.get("wallet_id") as string;
+
     const payload = {
-      wallet_id: id,
+      wallet_id: wallet_id,
       category_id: "66bf3d93c2924bd2156e699f", //temporary
       user,
       amount: type === "income" ? parseInt(amount) : -parseInt(amount),
       date,
       description,
-    }
+    };
 
-    const transaction = new TransactionModel(payload)
-    await transaction.save()
-    revalidatePath(`/wallet/${id}`, "page")
+    const transaction = new TransactionModel(payload);
+    await transaction.save();
+    revalidatePath(`/wallet/${wallet_id}`, "page");
     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
-    return { success: `Transaction created successfully`, error: null }
+    return { success: `Transaction created successfully`, error: null };
   } catch (error: any) {
-    await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
-    return { success: null, error: error?.message || "An error occurred" }
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate slow network
+    return { success: null, error: error?.message || "An error occurred" };
   }
-}
+};
 
 export { createTransaction }
 

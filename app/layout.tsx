@@ -26,22 +26,22 @@ const RootLayout = async ({
   const session = await auth()
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} flex flex-col min-h-screen bg-theme-lightBlue`}
-      >
+      <body className={`${inter.className}`}>
         <AppRouterCacheProvider>
           <SessionProvider session={session}>
             <ReactQueryClientProvider>
-              <ReactQueryDevtools buttonPosition="bottom-left" />
+              {/* <ReactQueryDevtools buttonPosition="bottom-left" /> */}
               {session && <NavMenu />}
+              <main className="flex flex-1 h-full overflow-hidden bg-gray-100 p-2">
+                {children}
+              </main>
               <Toaster position="bottom-center" />
-              {children}
             </ReactQueryClientProvider>
           </SessionProvider>
         </AppRouterCacheProvider>
       </body>
     </html>
-  )
+  );
 }
 
 export default RootLayout
