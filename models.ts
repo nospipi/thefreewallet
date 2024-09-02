@@ -14,15 +14,17 @@ const walletSchema = new Schema(
     },
     user: { type: String, required: true },
     balance: { type: Number, required: true, default: 0 },
+    expenses: { type: Number, required: true, default: 0 },
+    income: { type: Number, required: true, default: 0 },
   },
   { timestamps: true }
-)
+);
 
-walletSchema.index({ user: 1, title: 1 }, { unique: true })
+walletSchema.index({ user: 1, title: 1 }, { unique: true });
 
 walletSchema.plugin(uniqueValidator, {
   message: "{PATH} {VALUE} already exists.",
-}) //https://www.npmjs.com/package/mongoose-unique-validator
+}); //https://www.npmjs.com/package/mongoose-unique-validator
 
 const categorySchema = new Schema(
   {
@@ -30,7 +32,7 @@ const categorySchema = new Schema(
     user: { type: String, required: true },
   },
   { timestamps: true }
-)
+);
 
 const transactionSchema = new Schema(
   {
@@ -46,56 +48,74 @@ const transactionSchema = new Schema(
     description: { type: String, required: true },
   },
   { timestamps: true }
-)
+);
 
 transactionSchema.pre("save", async function (next) {
   try {
-    const wallet = await mongoose.model("wallet").findById(this.wallet_id)
+    const wallet = await mongoose.model("wallet").findById(this.wallet_id);
     if (!wallet) {
-      throw new Error("Wallet not found")
+      throw new Error("Wallet not found");
     }
 
     // Accumulate the wallet's balance
-    wallet.balance += this.amount
+    wallet.balance += this.amount;
+    // Accumulate the wallet's expenses
+    if (this.amount < 0) {
+      wallet.expenses += this.amount;
+    }
+    // Accumulate the wallet's income
+    if (this.amount > 0) {
+      wallet.income += this.amount;
+    }
 
     // Save the updated wallet
-    await wallet.save()
+    await wallet.save();
 
-    next()
+    next();
   } catch (error: any) {
-    next(error)
+    next(error);
   }
-})
+});
 
 transactionSchema.pre("findOneAndDelete", async function (next) {
   try {
     // Get the transaction that is being deleted
-    const transaction = await this.model.findOne(this.getQuery())
+    const transaction = await this.model.findOne(this.getQuery());
 
     if (!transaction) {
-      throw new Error("Transaction not found")
+      throw new Error("Transaction not found");
     }
 
     // Find the associated wallet using the transaction's wallet_id
     const wallet = await mongoose
       .model("wallet")
-      .findById(transaction.wallet_id)
+      .findById(transaction.wallet_id);
 
     if (!wallet) {
-      throw new Error("Wallet not found")
+      throw new Error("Wallet not found");
     }
 
     // Deduct the wallet's balance
-    wallet.balance -= transaction.amount
+    wallet.balance -= transaction.amount;
+
+    // Deduct the wallet's expenses
+    if (transaction.amount < 0) {
+      wallet.expenses -= transaction.amount;
+    }
+
+    // Deduct the wallet's income
+    if (transaction.amount > 0) {
+      wallet.income -= transaction;
+    }
 
     // Save the updated wallet
-    await wallet.save()
+    await wallet.save();
 
-    next()
+    next();
   } catch (error: any) {
-    next(error)
+    next(error);
   }
-})
+});
 
 //--------------------------------------------------------------
 //@ts-expect-error

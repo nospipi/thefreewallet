@@ -2,6 +2,7 @@ import Link from "next/link"
 import moment from "moment"
 const { TransactionModel, CategoryModel } = require("../../../models")
 
+
 //-----------------------------------------------------------------------------
 
 interface TransactionItemProps {
@@ -11,7 +12,7 @@ interface TransactionItemProps {
 const TransactionItem = async ({ id }: TransactionItemProps) => {
   const transaction = await TransactionModel.findById(id);
   const category = await CategoryModel.findById(transaction.category_id);
-  //flex flex-row flex-1 text-sm text-gray-500 gap-6 justify-between items-center w-full bg-theme-blue
+
   return (
     <Link href="/transaction/[id]" as={`/transaction/${id}`}>
       <div className="bg-white shadow-md rounded-lg p-4 flex justify-between items-end hover:shadow-lg hover:scale-102 transition transform duration-200 w-full">
@@ -31,7 +32,7 @@ const TransactionItem = async ({ id }: TransactionItemProps) => {
               {moment(transaction.createdAt).format("ddd DD MMM YYYY hh:mm A")}
             </span>
             <span
-              className={`text-lg font-semibold ${
+              className={`font-semibold ${
                 transaction.amount >= 0
                   ? "text-theme-darkGreen"
                   : "text-theme-indianRed"

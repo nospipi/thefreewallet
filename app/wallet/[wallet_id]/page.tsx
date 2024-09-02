@@ -5,10 +5,11 @@ import connectDB from "../../../db.connect"
 const { TransactionModel } = require("../../../models")
 import TransactionItem from "./TransactionItem"
 import { Suspense } from "react"
-import { IconButton } from "@mui/material"
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import Popover from "@mui/material/Popover";
+import { IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import MenuButton from "./MenuButton";
 
 //-----------------------------------------------------------------------------
 
@@ -36,33 +37,18 @@ const TransactionDetailPage = async () => {
         </div>
       }
     >
-      <div className="flex flex-1 flex-col justify-center items-center bg-gray-100 h-full overflow-auto relative">
-        <IconButton
-          aria-label="add"
-          sx={{
-            position: "absolute",
-            top: 5,
-            right: 5,
-            zIndex: 1,
-            background: "#D8D8D8",
-
-            //hover out
-            ":active": {
-              backgroundColor: "#D8D8D8",
-            },
-          }}
-        >
-          <MoreVertIcon />
-        </IconButton>
+      <div className="flex flex-1 flex-col items-center bg-gray-100 h-full overflow-auto relative">
+        <MenuButton />
         <Link href={`/wallet/${wallet_id[1]}/add_transaction`}>
           <IconButton
             aria-label="add"
+            color="success"
             sx={{
               position: "absolute",
               bottom: 5,
               right: 5,
               zIndex: 1,
-              background: "#D8D8D8",
+              border: "2px solid #e0e0e0",
             }}
           >
             <AddIcon />
