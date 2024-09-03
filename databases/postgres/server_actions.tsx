@@ -25,7 +25,6 @@ const createWallet = async (
 
     const wallet = new WalletModel({ title, user })
     await wallet.save()
-    revalidatePath(`/`, "page")
     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
     return { success: `Wallet ${title} created successfully`, error: null }
   } catch (error: any) {
