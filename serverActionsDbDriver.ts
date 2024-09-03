@@ -35,7 +35,7 @@ interface IDatabaseActions {
 }
 
 // Function to dynamically import the correct database module based on environment variable
-async function getDbActions(): Promise<IDatabaseActions> {
+const getDbActions = async (): Promise<IDatabaseActions> => {
   if (DATABASE === "MONGODB") {
     return await import("@/databases/mongodb/server_actions")
   } else if (DATABASE === "POSTGRES") {
