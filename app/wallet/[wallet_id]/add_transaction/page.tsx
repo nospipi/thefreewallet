@@ -1,15 +1,11 @@
-import connectDB from "../../../../db.connect"
-import NewTransactionForm from "./NewTransactionForm.client"
-const { CategoryModel } = require("../../../../models")
-import { auth } from "@/auth"
+import NewTransactionForm from "./NewTransactionForm.client";
+import { getCategories } from "@/databases/mongodb/server_actions";
 
 //-------------------------------------------------------------------------
 
 const AddTransactionPage = async () => {
-  await connectDB()
-  const session = await auth()
-  const user = session?.user?.email as string
-  const categories = await CategoryModel.find({ user }).select("title _id")
+  const categories = await getCategories();
+  console.log("categories", categories);
 
   return (
     <div className="flex flex-1 items-center justify-center bg-gray-100 p-8">
@@ -17,10 +13,10 @@ const AddTransactionPage = async () => {
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
           Add Transaction
         </h2>
-        <NewTransactionForm categories={JSON.stringify(categories, null, 2)} />
+        {/* <NewTransactionForm categories={JSON.stringify(categories, null, 2)} /> */}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AddTransactionPage
+export default AddTransactionPage;

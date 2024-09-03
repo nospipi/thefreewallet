@@ -1,6 +1,9 @@
 import Link from "next/link"
 import moment from "moment"
-const { TransactionModel, CategoryModel } = require("../../../models")
+const {
+  TransactionModel,
+  CategoryModel,
+} = require("@/databases/mongodb/models");
 
 
 //-----------------------------------------------------------------------------

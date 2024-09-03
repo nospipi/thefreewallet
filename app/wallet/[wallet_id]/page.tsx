@@ -2,7 +2,7 @@ import { auth } from "@/auth"
 import Link from "next/link"
 import { headers } from "next/headers"
 import connectDB from "../../../db.connect"
-const { TransactionModel } = require("../../../models")
+const { TransactionModel } = require("@/databases/mongodb/models");
 import TransactionItem from "./TransactionItem"
 import { Suspense } from "react"
 import Popover from "@mui/material/Popover";

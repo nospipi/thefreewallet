@@ -3,7 +3,7 @@ import Link from "next/link"
 import { auth } from "@/auth"
 import { headers } from "next/headers"
 import connectDB from "../../../db.connect"
-const { TransactionModel } = require("../../../models")
+const { TransactionModel } = require("@/databases/mongodb/models");
 import DeleteBtn from "../DeleteBtn"
 import moment from "moment"
 

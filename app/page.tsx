@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 import connectDB from "../db.connect"
-const { WalletModel } = require("../models")
+const { WalletModel } = require("../databases/mongodb/models");
 import { auth } from "@/auth"
 import Link from "next/link"
 // import {

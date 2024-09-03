@@ -1,7 +1,7 @@
-import mongoose from "mongoose"
-const uniqueValidator = require("mongoose-unique-validator")
-import moment from "moment"
-const { Schema, model } = mongoose
+import mongoose from "mongoose";
+const uniqueValidator = require("mongoose-unique-validator");
+import moment from "moment";
+const { Schema, model } = mongoose;
 
 //-------------------------------------------------------------------------------
 
@@ -119,10 +119,10 @@ transactionSchema.pre("findOneAndDelete", async function (next) {
 
 //--------------------------------------------------------------
 //@ts-expect-error
-mongoose.models = {}
+mongoose.models = {};
 //https://stackoverflow.com/questions/19051041/cannot-overwrite-model-once-compiled-mongoose
 module.exports = {
   WalletModel: model("wallet", walletSchema),
   CategoryModel: model("category", categorySchema),
   TransactionModel: model("transaction", transactionSchema),
-}
+};

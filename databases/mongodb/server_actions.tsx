@@ -1,9 +1,9 @@
-"use server"
-const { WalletModel, TransactionModel } = require("./models")
-import { auth } from "@/auth"
-import connectDB from "./db.connect"
-import { headers } from "next/headers"
-import { revalidatePath } from "next/cache"
+"use server";
+const { WalletModel, TransactionModel, CategoryModel } = require("./models");
+import { auth } from "@/auth";
+import connectDB from "../../db.connect";
+import { headers } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 //------------------------------------------------------------------------------
@@ -48,6 +48,19 @@ const deleteWallet = async (
   } catch (error: any) {
     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
     return { success: null, error: error?.message || "An error occurred" };
+  }
+};
+
+const getCategories = async (): Promise<any> => {
+  try {
+    await connectDB();
+    const session = await auth();
+    const user = session?.user?.email as string;
+    const categories = await CategoryModel.find({ user }).select("title _id");
+    //throw new Error("test error"); // Simulate error
+    return categories;
+  } catch (error: any) {
+    return error?.message || "An error occurred";
   }
 };
 
@@ -104,7 +117,13 @@ const deleteTransaction = async (): Promise<IActionState> => {
   }
 };
 
-export { createWallet, deleteWallet, createTransaction, deleteTransaction };
+export {
+  createWallet,
+  getCategories,
+  deleteWallet,
+  createTransaction,
+  deleteTransaction,
+};
 
 //------------------------------------------------------------------------------
 

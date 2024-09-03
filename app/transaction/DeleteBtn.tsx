@@ -1,5 +1,5 @@
 "use client"
-import { deleteTransaction } from "@/server_actions"
+import { deleteTransaction } from "@/databases/mongodb/server_actions";
 import { useRouter } from "next/navigation"
 import { toast } from "react-hot-toast"
 

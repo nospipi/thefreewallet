@@ -5,7 +5,7 @@ import Popover from "@mui/material/Popover";
 import { IconButton } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MenuItem from "@mui/material/MenuItem";
-import { deleteWallet, IActionState } from "@/server_actions";
+import { deleteWallet, IActionState } from "@/databases/mongodb/server_actions";
 import { useParams } from "next/navigation";
 
 //-----------------------------------------------------------------------------
