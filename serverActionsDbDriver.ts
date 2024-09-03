@@ -34,7 +34,6 @@ interface IDatabaseActions {
   // Add other action types here if needed
 }
 
-// Function to dynamically import the correct database module based on environment variable
 const getDbActions = async (): Promise<IDatabaseActions> => {
   if (DATABASE === "MONGODB") {
     return await import("@/databases/mongodb/server_actions")
@@ -45,7 +44,6 @@ const getDbActions = async (): Promise<IDatabaseActions> => {
   }
 }
 
-// Export the createWallet function with proper typing
 export const createWallet: CreateWalletFunction = async (
   previousState,
   formData
@@ -53,6 +51,3 @@ export const createWallet: CreateWalletFunction = async (
   const actions = await getDbActions()
   return actions.createWallet(previousState, formData)
 }
-
-// Export other functions similarly if needed:
-// export const someOtherAction = ...
