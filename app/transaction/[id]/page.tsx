@@ -63,7 +63,7 @@ const TransactionPage = async () => {
             <span>Amount:</span>{" "}
             <strong
               className={`${
-                transaction.amount >= 0
+                transaction.type === "income"
                   ? "text-theme-darkGreen"
                   : "text-theme-indianRed"
               }`}
@@ -87,7 +87,7 @@ const TransactionPage = async () => {
         </div>
       </div>
     </Suspense>
-  )
+  );
 }
 
 export default TransactionPage

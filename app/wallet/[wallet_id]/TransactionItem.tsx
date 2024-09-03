@@ -36,7 +36,7 @@ const TransactionItem = async ({ id }: TransactionItemProps) => {
             </span>
             <span
               className={`font-semibold ${
-                transaction.amount >= 0
+                transaction.type === "income"
                   ? "text-theme-darkGreen"
                   : "text-theme-indianRed"
               }`}

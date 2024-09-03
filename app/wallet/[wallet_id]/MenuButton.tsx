@@ -1,33 +1,24 @@
-"use client"
+"use client";
 
-import React, { useState, useActionState } from "react"
-import Popover from "@mui/material/Popover"
-import { IconButton } from "@mui/material"
-import MoreVertIcon from "@mui/icons-material/MoreVert"
-import MenuItem from "@mui/material/MenuItem"
-import { deleteWallet, IActionState } from "@/databases/postgres/server_actions"
-import { useParams } from "next/navigation"
+import React, { useState } from "react";
+import Popover from "@mui/material/Popover";
+import { IconButton } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import MenuItem from "@mui/material/MenuItem";
+import DeleteBtn from "./DeleteBtn";
 
 //-----------------------------------------------------------------------------
 
 const MenuButton = () => {
-  const params = useParams()
-  const wallet_id = params.wallet_id as string
-
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-  const open = Boolean(anchorEl)
-  const id = open ? "simple-popover" : undefined
+    setAnchorEl(event.currentTarget);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
   const handleClose = () => {
-    setAnchorEl(null)
-  }
-
-  const [state, action, isPending] = useActionState(deleteWallet, {
-    success: null,
-    error: null,
-  } as IActionState)
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -64,8 +55,8 @@ const MenuButton = () => {
         }}
       >
         <MenuItem>Edit Wallet</MenuItem>
-        <form action={action}>
-          <input type="hidden" name="wallet_id" value={wallet_id} />
+
+        <DeleteBtn>
           <MenuItem
             sx={{
               color: "indianred",
@@ -73,10 +64,10 @@ const MenuButton = () => {
           >
             Delete Wallet
           </MenuItem>
-        </form>
+        </DeleteBtn>
       </Popover>
     </>
-  )
-}
+  );
+};
 
-export default MenuButton
+export default MenuButton;

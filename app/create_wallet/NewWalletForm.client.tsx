@@ -16,21 +16,22 @@ const NewWalletForm = () => {
   } as IActionState)
 
   useEffect(() => {
-    toast.dismiss()
+    toast.dismiss();
 
     if (isPending) {
-      toast.dismiss()
-      toast.loading("Creating Wallet...")
+      toast.dismiss();
+      toast.loading("Creating Wallet...");
     }
     if (state.success) {
-      toast.dismiss()
-      toast.success(state.success)
+      toast.dismiss();
+      toast.success(state.success);
+      router.back();
     }
     if (state.error) {
-      toast.dismiss()
-      toast.error(state.error)
+      toast.dismiss();
+      toast.error(state.error);
     }
-  }, [state.success, state.error, isPending])
+  }, [state.success, state.error, isPending, router]);
 
   return (
     <form action={action} className="space-y-6">

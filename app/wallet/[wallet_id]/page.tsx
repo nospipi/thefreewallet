@@ -3,31 +3,21 @@ import Link from "next/link"
 import { headers } from "next/headers"
 import connectDB from "../../../db.connect"
 const { TransactionModel } = require("@/databases/mongodb/models");
-import TransactionItem from "./TransactionItem"
-import { Suspense } from "react"
-import Popover from "@mui/material/Popover";
+import { getTransactions } from "@/serverActionsDbDriver";
+import TransactionItem from "./TransactionItem";
+import { Suspense } from "react";
 import { IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MenuButton from "./MenuButton";
 
 //-----------------------------------------------------------------------------
 
 const TransactionDetailPage = async () => {
   const headerList = headers();
-  //passed from middleware.ts
   const pathname = headerList.get("x-current-path");
   const wallet_id = pathname?.match(/\/wallet\/([^\/]+)/) as string[];
 
-  const session = await auth();
-  await connectDB();
-
-  const transactions = await TransactionModel.find({
-    user: session?.user?.email,
-    wallet_id: wallet_id[1],
-  })
-    .sort({ createdAt: -1 })
-    .select("_id");
+  const transactions = await getTransactions();
 
   return (
     <Suspense
@@ -63,7 +53,7 @@ const TransactionDetailPage = async () => {
 
         {transactions.length && (
           <div className="flex flex-col gap-2 overflow-y-auto p-1">
-            {transactions.map((transaction: any, index: number) => {
+            {transactions.map((transaction: any) => {
               return (
                 <TransactionItem
                   key={transaction._id.toString()}
