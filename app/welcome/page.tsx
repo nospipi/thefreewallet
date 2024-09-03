@@ -4,7 +4,7 @@ import GoogleIcon from "@mui/icons-material/Google"
 
 const Welcome = () => {
   return (
-    <div className="min-h-screen bg-theme-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-theme-white flex flex-1 items-center justify-center p-4">
       <div className="w-full max-w-md bg-theme-white rounded-lg shadow-lg p-6">
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-theme-dark">Welcome!</h1>
