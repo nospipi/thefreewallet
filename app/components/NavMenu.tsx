@@ -66,7 +66,6 @@ const NavMenu = () => {
       >
         <MenuItem
           onClick={() => (window.location.href = "/api/auth/signout")}
-          variant="text"
           sx={{
             color: "indianred",
             fontSize: "14px",
@@ -77,7 +76,7 @@ const NavMenu = () => {
       </Popover>
       {/* </div> */}
     </nav>
-  )
+  );
 }
 
 export default NavMenu
