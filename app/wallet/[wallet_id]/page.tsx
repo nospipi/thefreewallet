@@ -1,9 +1,5 @@
-import { auth } from "@/auth"
-import Link from "next/link"
-import { headers } from "next/headers"
-import connectDB from "../../../db.connect"
-const { TransactionModel } = require("@/databases/mongodb/models");
-import { getTransactions } from "@/serverActionsDbDriver";
+import Link from "next/link";
+import { getWallet, getTransactions } from "@/serverActionsDbDriver";
 import TransactionItem from "./TransactionItem";
 import { Suspense } from "react";
 import { IconButton } from "@mui/material";
@@ -13,10 +9,7 @@ import MenuButton from "./MenuButton";
 //-----------------------------------------------------------------------------
 
 const TransactionDetailPage = async () => {
-  const headerList = headers();
-  const pathname = headerList.get("x-current-path");
-  const wallet_id = pathname?.match(/\/wallet\/([^\/]+)/) as string[];
-
+  const wallet = await getWallet();
   const transactions = await getTransactions();
 
   return (
@@ -27,9 +20,9 @@ const TransactionDetailPage = async () => {
         </div>
       }
     >
-      <div className="flex flex-1 flex-col items-center bg-gray-100 h-full overflow-auto relative">
+      <div className="flex flex-1 flex-col items-center bg-gray-100 h-full overflow-hidden relative">
         <MenuButton />
-        <Link href={`/wallet/${wallet_id[1]}/add_transaction`}>
+        <Link href={`/wallet/${wallet._id}/add_transaction`}>
           <IconButton
             aria-label="add"
             color="success"
@@ -45,22 +38,110 @@ const TransactionDetailPage = async () => {
           </IconButton>
         </Link>
 
-        {!transactions.length && (
-          <div className="flex flex-1 items-center justify-center bg-gray-100">
-            No transactions found
+        <div className="flex flex-col gap-2 overflow-y-auto p-1">
+          <div className="p-4 rounded-lg bg-white text-grey border">
+            <h2 className="text-lg text-theme-dark font-bold">
+              {wallet.title}
+            </h2>
+            <div className="flex flex-row justify-between gap-2">
+              <p>Transactions Count</p>
+              <p className="text-md text-theme-dark font-bold">
+                {wallet.transactionsCount}
+              </p>
+            </div>
+            <div className="flex flex-row justify-between gap-2">
+              <p>Expenses Transactions Count</p>
+              <p className="text-md text-theme-dark font-bold">
+                {wallet.expensesTransactionsCount}
+              </p>
+            </div>
+            <div className="flex flex-row justify-between gap-2">
+              <p>Income Transactions Count</p>
+              <p className="text-md text-theme-dark font-bold">
+                {wallet.incomeTransactionsCount}
+              </p>
+            </div>
+            <div className="flex flex-row justify-between gap-2">
+              <p>Balance</p>
+              <p
+                className={`text-md font-bold ${
+                  wallet.balance > 0
+                    ? "text-theme-darkGreece"
+                    : "text-theme-indianRed"
+                }`}
+              >
+                €{wallet.balance.toFixed(2)}
+              </p>
+            </div>
+            <div className="flex flex-row justify-between gap-2">
+              <p>Total Expenses</p>
+              <p className="text-md text-theme-indianRed font-bold">
+                €{wallet.expenses.toFixed(2)}
+              </p>
+            </div>
+            <div className="flex flex-row justify-between gap-2">
+              <p>Total Income</p>
+              <p className="text-md text-theme-darkGreen font-bold">
+                €{wallet.income.toFixed(2)}
+              </p>
+            </div>
           </div>
-        )}
-
-        {transactions.length && (
-          <div className="flex flex-col gap-2 overflow-y-auto p-1">
-            {transactions.map((transaction: any) => {
+          {/* <table className="w-full max-w-2xl mx-auto text-left border-collapse">
+            <tbody>
+              <tr>
+                <td className="p-2 border-b">Transactions</td>
+                <td className="p-2 border-b font-bold">
+                  {wallet.transactionsCount}
+                </td>
+              </tr>
+              <tr>
+                <td className="p-2 border-b">Expenses Transactions</td>
+                <td className="p-2 border-b font-bold text-red-500">
+                  {wallet.expensesTransactionsCount}
+                </td>
+              </tr>
+              <tr>
+                <td className="p-2 border-b">Income Transactions</td>
+                <td className="p-2 border-b font-bold text-green-500">
+                  {wallet.incomeTransactionsCount}
+                </td>
+              </tr>
+              <tr>
+                <td className="p-2 border-b">Balance</td>
+                <td className="p-2 border-b font-bold text-blue-500">
+                  {wallet.balance}
+                </td>
+              </tr>
+              <tr>
+                <td className="p-2 border-b">Total Expenses</td>
+                <td className="p-2 border-b font-bold text-red-500">
+                  {wallet.expenses}
+                </td>
+              </tr>
+              <tr>
+                <td className="p-2">Total Income</td>
+                <td className="p-2 font-bold text-green-500">
+                  {wallet.income}
+                </td>
+              </tr>
+            </tbody>
+          </table> */}
+          {transactions.length ? (
+            transactions.map((transaction: any) => {
               return (
                 <TransactionItem
                   key={transaction._id.toString()}
                   id={transaction._id.toString()}
                 />
               );
-            })}
+            })
+          ) : (
+            <></>
+          )}
+        </div>
+        {!transactions.length && (
+          <div className="flex flex-1 items-center justify-center bg-gray-100">
+            No transactions found
           </div>
         )}
       </div>
@@ -68,4 +149,4 @@ const TransactionDetailPage = async () => {
   );
 };
 
-export default TransactionDetailPage
+export default TransactionDetailPage;

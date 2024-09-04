@@ -13,6 +13,20 @@ export interface IActionState {
   error: string | null;
 }
 
+const getWallet = async (): Promise<any> => {
+  try {
+    await connectDB();
+    const headerList = headers();
+    const pathname = headerList.get("x-current-path");
+    const segments = pathname?.split("/") || [];
+    const id = segments[2] || "";
+    const wallet = await WalletModel.findById(id);
+    return wallet;
+  } catch (error: any) {
+    return error?.message || "An error occurred";
+  }
+};
+
 const createWallet = async (
   previousState: IActionState,
   formData: FormData
@@ -107,12 +121,14 @@ const createTransaction = async (
     const user = session?.user?.email as string;
     const type = formData.get("type") as string;
     const wallet_id = formData.get("wallet_id") as string;
+    const category_id = formData.get("category_id") as string;
 
     const payload = {
       wallet_id: wallet_id,
-      category_id: "66bf3d93c2924bd2156e699f", //temporary
+      category_id: category_id,
       user,
-      amount: type === "income" ? parseInt(amount) : -parseInt(amount),
+      type,
+      amount,
       date,
       description,
     };
@@ -141,19 +157,21 @@ const editTransaction = async (
     const user = session?.user?.email as string;
     const type = formData.get("type") as string;
     const wallet_id = formData.get("wallet_id") as string;
+    const category_id = formData.get("category_id") as string;
     const id = formData.get("id") as string;
 
     const payload = {
       wallet_id: wallet_id,
-      category_id: "66bf3d93c2924bd2156e699f", //temporary
+      category_id: category_id,
       user,
-      amount: type === "income" ? parseInt(amount) : -parseInt(amount),
+      type,
+      amount,
       date,
       description,
     };
-
+    //throw new Error("test error"); // Simulate error
     await TransactionModel.findOneAndUpdate({ _id: id }, payload);
-    revalidatePath(`/wallet/${wallet_id}`, "page");
+    revalidatePath(`/transaction/${id}`, "page");
     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
     return { success: `Transaction updated successfully`, error: null };
   } catch (error: any) {
@@ -182,6 +200,7 @@ const deleteTransaction = async (): Promise<IActionState> => {
 };
 
 export {
+  getWallet,
   createWallet,
   getCategories,
   deleteWallet,

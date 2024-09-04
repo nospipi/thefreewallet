@@ -34,6 +34,7 @@ export type FormFunction = (
 export type FormFunctionWithoutInput = () => Promise<IActionState>;
 
 interface IDatabaseActions {
+  getWallet: () => Promise<any>;
   createWallet: FormFunction;
   deleteWallet: FormFunctionWithoutInput;
   getCategories: () => Promise<any>;
@@ -53,6 +54,11 @@ const getDbActions = async (): Promise<IDatabaseActions> => {
   } else {
     throw new Error("DATABASE environment variable is not set or is invalid");
   }
+};
+
+export const getWallet = async (): Promise<any> => {
+  const actions = await getDbActions();
+  return actions.getWallet();
 };
 
 export const createWallet: FormFunction = async (previousState, formData) => {

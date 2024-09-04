@@ -42,9 +42,14 @@ import Link from "next/link"
               </button>
             </Link>
             <div className="flex flex-col space-y-2 h-64 overflow-y-auto">
+              {!wallets.length && (
+                <p className="text-sm text-center text-gray-500">
+                  No wallets found
+                </p>
+              )}
               {wallets.map((wallet: any) => (
                 <Link key={wallet._id} href={`/wallet/${wallet._id}`}>
-                  <button className="w-full flex justify-between gap-1 px-4 py-2 bg-white text-black hover:bg-theme-darkWhite">
+                  <button className="w-full flex justify-between items-center gap-1 px-4 py-2 bg-white text-black hover:bg-theme-darkWhite">
                     <span>{wallet.title}</span>
                     <span className="text-sm text-gray-500">
                       Balance{" "}

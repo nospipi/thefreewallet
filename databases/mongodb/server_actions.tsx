@@ -13,6 +13,20 @@ export interface IActionState {
   error: string | null;
 }
 
+const getWallet = async (): Promise<any> => {
+  try {
+    await connectDB();
+    const headerList = headers();
+    const pathname = headerList.get("x-current-path");
+    const segments = pathname?.split("/") || [];
+    const id = segments[2] || "";
+    const wallet = await WalletModel.findById(id);
+    return wallet;
+  } catch (error: any) {
+    return error?.message || "An error occurred";
+  }
+};
+
 const createWallet = async (
   previousState: IActionState,
   formData: FormData
@@ -186,6 +200,7 @@ const deleteTransaction = async (): Promise<IActionState> => {
 };
 
 export {
+  getWallet,
   createWallet,
   getCategories,
   deleteWallet,
