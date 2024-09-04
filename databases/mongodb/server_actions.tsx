@@ -78,6 +78,7 @@ const deleteWallet = async (): Promise<IActionState> => {
     const segments = pathname?.split("/") || []
     const wallet_id = segments[2] || ""
     //throw new Error("test error"); // Simulate error
+    await TransactionModel.deleteMany({ wallet_id })
     await WalletModel.findOneAndDelete({ _id: wallet_id })
     revalidatePath(`/`, "page")
     return { success: `Wallet deleted successfully`, error: null }
