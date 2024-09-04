@@ -4,13 +4,13 @@ import { useActionState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import TextField from "@mui/material/TextField"
 import { toast } from "react-hot-toast"
-import { createWallet, IActionState } from "@/serverActionsDbDriver"
+import { editWallet, IActionState } from "@/serverActionsDbDriver"
 
 //---------------------------------------------------------
 
-const NewWalletForm = () => {
+const EditWalletForm = ({ id, title }: { id: string; title: string }) => {
   const router = useRouter()
-  const [state, action, isPending] = useActionState(createWallet, {
+  const [state, action, isPending] = useActionState(editWallet, {
     success: null,
     error: null,
   } as IActionState)
@@ -20,7 +20,7 @@ const NewWalletForm = () => {
 
     if (isPending) {
       toast.dismiss()
-      toast.loading("Creating Wallet...")
+      toast.loading("Updating Wallet...")
     }
     if (state.success) {
       toast.dismiss()
@@ -31,10 +31,15 @@ const NewWalletForm = () => {
       toast.dismiss()
       toast.error(state.error)
     }
+
+    return () => {
+      toast.dismiss()
+    }
   }, [state.success, state.error, isPending, router])
 
   return (
     <form action={action} className="space-y-6">
+      <input type="hidden" name="id" value={id} />
       <TextField
         name="title"
         variant="filled"
@@ -44,6 +49,7 @@ const NewWalletForm = () => {
         sx={{
           background: "white",
         }}
+        defaultValue={title}
       />
 
       <div className="flex space-x-4 justify-end">
@@ -66,4 +72,4 @@ const NewWalletForm = () => {
   )
 }
 
-export default NewWalletForm
+export default EditWalletForm

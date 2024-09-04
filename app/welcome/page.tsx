@@ -13,7 +13,7 @@ const Welcome = () => {
 
         <div className="space-y-3">
           <button
-            className="block w-full text-center bg-theme-dark text-theme-white py-2 rounded-md hover:bg-opacity-90"
+            className="flex justify-center items-center w-full bg-theme-dark text-theme-white py-2 rounded-md hover:bg-opacity-90"
             onClick={() => signIn("google", { callbackUrl: "/" })}
           >
             Sign in with Google

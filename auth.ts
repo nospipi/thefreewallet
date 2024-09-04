@@ -9,7 +9,7 @@ const authOptions: NextAuthConfig = {
   pages: {
     signIn: "/welcome",
     //signOut: "/welcome",
-    error: "/welcome",
+    //error: "/welcome",
     //verifyRequest: "/auth/verify-request", // (used for check email message in credentials provider)
     //newUser: "/auth/new-user", // New users will be directed here on first sign in (leave the property out if not of interest)
   },

@@ -1,36 +1,35 @@
 "use client"
 import React, { useState } from "react"
 import { useSession } from "next-auth/react"
-import Image from "next/image";
-import WalletIcon from "@mui/icons-material/Wallet";
-import { usePathname } from "next/navigation";
-import Popover from "@mui/material/Popover";
-import MenuItem from "@mui/material/MenuItem";
-import IconButton from "@mui/material/IconButton";
+import Image from "next/image"
+import WalletIcon from "@mui/icons-material/Wallet"
+import Popover from "@mui/material/Popover"
+import MenuItem from "@mui/material/MenuItem"
+import IconButton from "@mui/material/IconButton"
 
 //-------------------------------------------------------------------------
 const NavMenu = () => {
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
-  const pathname = usePathname();
-  const isHome = pathname === "/";
-  const { data: session } = useSession();
+    setAnchorEl(null)
+  }
+  const open = Boolean(anchorEl)
+  const id = open ? "simple-popover" : undefined
+
+  const { data: session } = useSession()
   return (
     <nav className="flex justify-between items-center top-0 left-0 w-full bg-gray-800 text-white p-4 z-10">
-      {!isHome && (
-        <WalletIcon
-          className="cursor-pointer"
-          onClick={() => (window.location.href = "/")}
-        />
-      )}
+      <button
+        className="flex items-center space-x-4 cursor-pointer"
+        onClick={() => (window.location.href = "/")}
+      >
+        <WalletIcon />
+        <span>FreeWallet</span>
+      </button>
 
       <div className="flex flex-1 justify-end items-center space-x-4">
         <span>{session?.user?.email}</span>
@@ -67,6 +66,7 @@ const NavMenu = () => {
           variant="text"
           sx={{
             color: "indianred",
+            fontSize: "14px",
           }}
         >
           Sign Out
@@ -74,7 +74,7 @@ const NavMenu = () => {
       </Popover>
       {/* </div> */}
     </nav>
-  );
-};
+  )
+}
 
 export default NavMenu
