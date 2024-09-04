@@ -15,12 +15,12 @@ const TransactionDetailPage = async () => {
   return (
     <Suspense
       fallback={
-        <div className="flex flex-1 items-center justify-center bg-gray-100">
+        <div className="flex flex-1 items-center justify-center">
           <div className="w-7 h-7 border-4 border-theme-dark border-t-transparent border-solid rounded-full animate-spin"></div>
         </div>
       }
     >
-      <div className="flex flex-1 flex-col items-center bg-gray-100 h-full overflow-hidden relative">
+      <div className="flex flex-1 flex-col items-center h-full overflow-hidden relative">
         <MenuButton />
         <Link href={`/wallet/${wallet?._id}/add_transaction`}>
           <IconButton
@@ -31,7 +31,7 @@ const TransactionDetailPage = async () => {
               bottom: 5,
               right: 5,
               zIndex: 1,
-              border: "2px solid #e0e0e0",
+              border: "2px solid #BEBEBE",
             }}
           >
             <AddIcon />
@@ -39,30 +39,42 @@ const TransactionDetailPage = async () => {
         </Link>
 
         <div className="flex flex-col gap-2 overflow-y-auto p-1">
-          <div className="p-4 rounded-lg bg-white text-grey border">
-            <h2 className="text-lg text-theme-dark font-bold">
+          <div className="p-4 rounded-lg bg-white text-grey border ">
+            <h2 className="text-lg text-theme-dark font-bold mb-3">
               {wallet?.title}
             </h2>
-            <div className="flex flex-row justify-between gap-2">
-              <p>Transactions Count</p>
+            <div className="flex flex-row justify-between gap-12">
+              <p className="text-sm">Transactions Count</p>
               <p className="text-md text-theme-dark font-bold">
-                {wallet?.transactionsCount}
+                {wallet?.transactions_count}
               </p>
             </div>
-            <div className="flex flex-row justify-between gap-2">
-              <p>Expenses Transactions Count</p>
+            <div className="flex flex-row justify-between gap-12">
+              <p className="text-sm">Expenses Transactions Count</p>
               <p className="text-md text-theme-dark font-bold">
-                {wallet?.expensesTransactionsCount}
+                {wallet?.expenses_transactions_count}
               </p>
             </div>
-            <div className="flex flex-row justify-between gap-2">
-              <p>Income Transactions Count</p>
+            <div className="flex flex-row justify-between gap-12">
+              <p className="text-sm">Income Transactions Count</p>
               <p className="text-md text-theme-dark font-bold">
-                {wallet?.incomeTransactionsCount}
+                {wallet?.income_transactions_count}
               </p>
             </div>
-            <div className="flex flex-row justify-between gap-2">
-              <p>Balance</p>
+            <div className="flex flex-row justify-between gap-12">
+              <p className="text-sm">Total Expenses</p>
+              <p className="text-md text-theme-indianRed font-bold">
+                €{wallet?.expenses.toFixed(2)}
+              </p>
+            </div>
+            <div className="flex flex-row justify-between gap-12">
+              <p className="text-sm">Total Income</p>
+              <p className="text-md text-theme-darkGreen font-bold">
+                €{wallet?.income.toFixed(2)}
+              </p>
+            </div>
+            <div className="flex flex-row justify-between gap-12 mt-3">
+              <p className="text-md font-bold">Balance</p>
               <p
                 className={`text-md font-bold ${
                   wallet?.balance > 0
@@ -71,18 +83,6 @@ const TransactionDetailPage = async () => {
                 }`}
               >
                 €{wallet?.balance.toFixed(2)}
-              </p>
-            </div>
-            <div className="flex flex-row justify-between gap-2">
-              <p>Total Expenses</p>
-              <p className="text-md text-theme-indianRed font-bold">
-                €{wallet?.expenses.toFixed(2)}
-              </p>
-            </div>
-            <div className="flex flex-row justify-between gap-2">
-              <p>Total Income</p>
-              <p className="text-md text-theme-darkGreen font-bold">
-                €{wallet?.income.toFixed(2)}
               </p>
             </div>
           </div>
@@ -101,7 +101,7 @@ const TransactionDetailPage = async () => {
           )}
         </div>
         {!transactions.length && (
-          <div className="flex flex-1 items-center justify-center bg-gray-100">
+          <div className="flex flex-1 items-center justify-center">
             No transactions found
           </div>
         )}

@@ -32,7 +32,7 @@ const RootLayout = async ({
             <ReactQueryClientProvider>
               {/* <ReactQueryDevtools buttonPosition="bottom-left" /> */}
               {session && <NavMenu />}
-              <main className="flex flex-1 h-full overflow-hidden bg-gray-100 p-2">
+              <main className="flex flex-1 h-full overflow-hidden bg-gray-200 p-2">
                 {children}
               </main>
               <Toaster position="bottom-center" />
@@ -41,7 +41,7 @@ const RootLayout = async ({
         </AppRouterCacheProvider>
       </body>
     </html>
-  );
+  )
 }
 
 export default RootLayout

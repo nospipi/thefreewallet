@@ -3,7 +3,7 @@ import Link from "next/link"
 import { auth } from "@/auth"
 import { headers } from "next/headers"
 import connectDB from "../../../db.connect"
-const { TransactionModel } = require("@/databases/mongodb/models");
+const { TransactionModel } = require("@/databases/mongodb/models")
 import DeleteBtn from "../DeleteBtn"
 import moment from "moment"
 
@@ -38,12 +38,12 @@ const TransactionPage = async () => {
   return (
     <Suspense
       fallback={
-        <div className="flex flex-1 items-center justify-center bg-gray-100">
+        <div className="flex flex-1 items-center justify-center">
           <div className="w-7 h-7 border-4 border-theme-dark border-t-transparent border-solid rounded-full animate-spin"></div>
         </div>
       }
     >
-      <div className="flex flex-1 items-center justify-center bg-gray-100 p-8">
+      <div className="flex flex-1 items-center justify-center p-8">
         <div className="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-md">
           <h1 className="text-2xl font-semibold text-gray-800 mb-4">
             Transaction Details
@@ -87,7 +87,7 @@ const TransactionPage = async () => {
         </div>
       </div>
     </Suspense>
-  );
+  )
 }
 
 export default TransactionPage

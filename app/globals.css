@@ -4,6 +4,8 @@
 
 html {
   height: 100vh;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
 }
 body {
   margin: 0;
@@ -13,7 +15,7 @@ body {
   display: flex;
   flex-direction: column;
 }
-.last-row{
+.last-row {
   width: 100%;
   min-width: 100%;
   display: flex;

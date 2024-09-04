@@ -22,17 +22,19 @@ const NavMenu = () => {
 
   const { data: session } = useSession()
   return (
-    <nav className="flex justify-between items-center top-0 left-0 w-full bg-gray-800 text-white p-4 z-10">
+    <nav className="flex justify-between items-center top-0 left-0 w-full bg-gradient-to-tr from-slate-900 to-slate-700 text-white p-4 z-10">
       <button
-        className="flex items-center space-x-4 cursor-pointer"
+        className="group flex items-center space-x-3 cursor-pointer select-none"
         onClick={() => (window.location.href = "/")}
       >
-        <WalletIcon />
+        <div className="transform transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110">
+          <WalletIcon />
+        </div>
         <span>FreeWallet</span>
       </button>
 
-      <div className="flex flex-1 justify-end items-center space-x-4">
-        <span>{session?.user?.email}</span>
+      <div className="flex flex-1 justify-end items-center space-x-3">
+        <span className="text-sm">{session?.user?.email}</span>
         <IconButton
           onClick={handleClick}
           sx={{
@@ -44,6 +46,7 @@ const NavMenu = () => {
             width="30"
             height="30"
             alt=""
+            className="rounded-full"
           />
         </IconButton>
       </div>

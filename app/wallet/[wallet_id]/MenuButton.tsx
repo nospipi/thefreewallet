@@ -33,7 +33,7 @@ const MenuButton = () => {
           top: 5,
           right: 5,
           zIndex: 1,
-          border: "2px solid #e0e0e0",
+          border: "2px solid #BEBEBE",
         }}
       >
         <MoreVertIcon

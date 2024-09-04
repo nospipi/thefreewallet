@@ -4,7 +4,7 @@ import { useActionState, useEffect } from "react"
 import { useRouter, useParams } from "next/navigation"
 import TextField from "@mui/material/TextField"
 import { toast } from "react-hot-toast"
-import { createTransaction, IActionState } from "@/serverActionsDbDriver";
+import { createTransaction, IActionState } from "@/serverActionsDbDriver"
 import Radio from "@mui/material/Radio"
 import RadioGroup from "@mui/material/RadioGroup"
 import FormControlLabel from "@mui/material/FormControlLabel"
@@ -106,7 +106,7 @@ const NewTransactionForm = ({ categories }: any) => {
               background: "white",
             }}
             type="number"
-            slotProps={{ htmlInput: { min: 1 } }}
+            slotProps={{ htmlInput: { min: 0.01, step: 0.001 } }}
           />
           <TextField
             name="date"
