@@ -222,30 +222,7 @@ transactionSchema.pre("findOneAndDelete", async function (next) {
   }
 })
 
-// // Post middleware to update the wallet after the transaction is updated
-// transactionSchema.post("findOneAndUpdate", async function (doc, next) {
-//   try {
-//     console.log("this.TEST", (this as any)?.TEST);
-//     //this gets the this.whatever that was set in the pre hook
-//     next();
-//   } catch (error: any) {
-//     next(error);
-//   }
-// });
-
 //--------------------------------------------------------------
-//https://mongoosejs.com/docs/middleware.html#defining
-//Calling pre() or post() after compiling a model does not work in Mongoose
-//This means that you must add all middleware and plugins before calling mongoose.model()
-
-// //@ts-expect-error
-// mongoose.models = {};
-// //https://stackoverflow.com/questions/19051041/cannot-overwrite-model-once-compiled-mongoose
-// module.exports = {
-//   WalletModel: mongoose.model("wallet", walletSchema),
-//   CategoryModel: mongoose.model("category", categorySchema),
-//   TransactionModel: mongoose.model("transaction", transactionSchema),
-// };
 
 export const WalletModel =
   mongoose.models.wallet || mongoose.model("wallet", walletSchema)

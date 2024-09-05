@@ -3,6 +3,9 @@
 import React, { useState } from "react"
 import { useRouter, useParams } from "next/navigation"
 import Popover from "@mui/material/Popover"
+import AddIcon from "@mui/icons-material/Add"
+import ModeEditIcon from "@mui/icons-material/ModeEdit"
+import DeleteIcon from "@mui/icons-material/Delete"
 import { IconButton } from "@mui/material"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import MenuItem from "@mui/material/MenuItem"
@@ -22,22 +25,6 @@ const MenuButton = () => {
   const handleClose = () => {
     setAnchorEl(null)
   }
-
-  // ;<Link href={`/wallet/${wallet?._id}/add_transaction`}>
-  //   <IconButton
-  //     aria-label="add"
-  //     color="success"
-  //     sx={{
-  //       position: "absolute",
-  //       bottom: 5,
-  //       right: 5,
-  //       zIndex: 1,
-  //       border: "2px solid #BEBEBE",
-  //     }}
-  //   >
-  //     <AddIcon />
-  //   </IconButton>
-  // </Link>
 
   return (
     <>
@@ -86,9 +73,18 @@ const MenuButton = () => {
           }}
           sx={{
             fontSize: "14px",
+            display: "flex",
+            alignItems: "center",
+            gap: "7px",
+            color: "rgb(5 61 5)",
           }}
         >
-          Add New Transaction
+          <AddIcon
+            sx={{
+              fontSize: "small",
+            }}
+          />
+          <span>Add New Transaction</span>
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -96,19 +92,36 @@ const MenuButton = () => {
           }}
           sx={{
             fontSize: "14px",
+            display: "flex",
+            alignItems: "center",
+            gap: "7px",
+            color: "rgb(31 78 126)",
           }}
         >
-          Edit Wallet
+          <ModeEditIcon
+            sx={{
+              fontSize: "small",
+            }}
+          />
+          <span>Edit Wallet</span>
         </MenuItem>
 
         <DeleteBtn>
           <MenuItem
             sx={{
-              color: "indianred",
               fontSize: "14px",
+              display: "flex",
+              alignItems: "center",
+              gap: "7px",
+              color: "rgb(112 44 44)",
             }}
           >
-            Delete Wallet
+            <DeleteIcon
+              sx={{
+                fontSize: "small",
+              }}
+            />
+            <span>Delete Wallet</span>
           </MenuItem>
         </DeleteBtn>
       </Popover>

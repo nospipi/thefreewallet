@@ -24,7 +24,6 @@ const Account = async () => {
           <h1 className="text-2xl font-semibold text-gray-800">{name}</h1>
           <p className="text-gray-500 mt-2">{email}</p>
         </div>
-        {/* Home Button */}
         <Link
           href="/"
           className="mt-4 bg-theme-dark hover:bg-opacity-90 text-white font-semibold py-2 px-4 rounded transition duration-300"
