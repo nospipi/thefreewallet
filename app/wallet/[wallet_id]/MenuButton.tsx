@@ -53,6 +53,9 @@ const MenuButton = () => {
           "&:hover": {
             backgroundColor: "#404550",
           },
+          "& .MuiTouchRipple-root .MuiTouchRipple-ripple": {
+            color: "white",
+          },
         }}
       >
         <MoreVertIcon
