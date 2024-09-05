@@ -23,6 +23,22 @@ const MenuButton = () => {
     setAnchorEl(null)
   }
 
+  // ;<Link href={`/wallet/${wallet?._id}/add_transaction`}>
+  //   <IconButton
+  //     aria-label="add"
+  //     color="success"
+  //     sx={{
+  //       position: "absolute",
+  //       bottom: 5,
+  //       right: 5,
+  //       zIndex: 1,
+  //       border: "2px solid #BEBEBE",
+  //     }}
+  //   >
+  //     <AddIcon />
+  //   </IconButton>
+  // </Link>
+
   return (
     <>
       <IconButton
@@ -33,12 +49,13 @@ const MenuButton = () => {
           top: 5,
           right: 5,
           zIndex: 1,
-          border: "2px solid #BEBEBE",
+          backgroundColor: "#30343f",
         }}
       >
         <MoreVertIcon
           sx={{
-            color: "#1e2749",
+            color: "white",
+            zIndex: 9999,
           }}
         />
       </IconButton>
@@ -57,6 +74,16 @@ const MenuButton = () => {
           cursor: "pointer",
         }}
       >
+        <MenuItem
+          onClick={() => {
+            router.push(`/wallet/${wallet_id}/add_transaction`)
+          }}
+          sx={{
+            fontSize: "14px",
+          }}
+        >
+          Add New Transaction
+        </MenuItem>
         <MenuItem
           onClick={() => {
             router.push(`/wallet/${wallet_id}/edit`)
