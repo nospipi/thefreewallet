@@ -50,6 +50,9 @@ const MenuButton = () => {
           right: 5,
           zIndex: 1,
           backgroundColor: "#30343f",
+          "&:hover": {
+            backgroundColor: "#404550",
+          },
         }}
       >
         <MoreVertIcon
