@@ -1,10 +1,11 @@
 import NewTransactionForm from "./NewTransactionForm.client"
-import { getCategories } from "@/databases/mongodb/server_actions";
+import { getCategories } from "@/databases/mongodb/server_actions"
+import { ICategory } from "@/databases/mongodb/models"
 
 //-------------------------------------------------------------------------
 
 const AddTransactionPage = async () => {
-  const categories = await getCategories()
+  const categories: ICategory[] = await getCategories()
 
   return (
     <div className="flex flex-1 items-center justify-center p-8">

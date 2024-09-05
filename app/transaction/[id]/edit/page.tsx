@@ -1,11 +1,12 @@
 import EditTransactionForm from "./EditTransactionForm"
 import { getTransaction, getCategories } from "@/serverActionsDbDriver"
+import { ITransaction, ICategory } from "@/databases/mongodb/models"
 
 //-------------------------------------------------------------------------
 
 const TransactionEditPage = async () => {
-  const transaction = await getTransaction()
-  const categories = await getCategories()
+  const transaction: ITransaction = await getTransaction()
+  const categories: ICategory[] = await getCategories()
 
   return (
     <div className="flex flex-1 items-center justify-center p-8">

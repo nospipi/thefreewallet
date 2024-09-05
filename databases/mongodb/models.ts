@@ -3,6 +3,7 @@ const uniqueValidator = require("mongoose-unique-validator")
 import moment from "moment"
 
 export interface IWallet extends mongoose.Document {
+  _id: string
   title: string
   user: string
   transactions_count: number
@@ -58,7 +59,7 @@ const walletSchema = new mongoose.Schema<IWallet>(
   }
 )
 
-//walletSchema.index({ user: 1, title: 1 }, { unique: true });
+walletSchema.index({ user: 1, title: 1 }, { unique: true })
 
 walletSchema.plugin(uniqueValidator, {
   message: "{PATH} {VALUE} already exists.",
@@ -71,6 +72,8 @@ const categorySchema = new mongoose.Schema<ICategory>(
   },
   { timestamps: true }
 )
+
+categorySchema.index({ user: 1, title: 1 }, { unique: true })
 
 const transactionSchema = new mongoose.Schema<ITransaction>(
   {

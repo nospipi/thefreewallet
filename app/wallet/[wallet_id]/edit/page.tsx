@@ -1,10 +1,11 @@
 import EditWalletForm from "./EditWalletForm.client"
 import { getWallet } from "@/serverActionsDbDriver"
+import { IWallet } from "@/databases/mongodb/models"
 
 //--------------------------------------------------------------
 
 const AddEntryPage = async () => {
-  const wallet = await getWallet()
+  const wallet: IWallet = await getWallet()
   return (
     <div className="flex flex-1 items-center justify-center p-8">
       <div className="bg-white p-8 rounded shadow-md max-w-md w-full">

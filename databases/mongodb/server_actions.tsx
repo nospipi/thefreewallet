@@ -4,7 +4,7 @@ import { auth } from "@/auth"
 import connectDB from "../../db.connect"
 import { headers } from "next/headers"
 import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
+//import { redirect } from "next/navigation"
 
 //------------------------------------------------------------------------------
 
@@ -12,6 +12,14 @@ export interface IActionState {
   success: string | null
   error: string | null
 }
+
+const newCategory = (input: string): string | false => {
+  const regex = /^NEW_CATEGORY=([^_]+)_/
+  const match = input.match(regex)
+  return match ? match[1] : false
+}
+
+//-----------------------------------------------------------------------------
 
 const getWallet = async (): Promise<any> => {
   try {
@@ -43,7 +51,13 @@ const createWallet = async (
     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
     return { success: `Wallet ${title} created successfully`, error: null }
   } catch (error: any) {
-    await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
+    //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
+    if (error.code === 11000) {
+      return {
+        success: null,
+        error: "Wallet with that title already exists",
+      }
+    }
     return { success: null, error: error?.message || "An error occurred" }
   }
 }
@@ -65,7 +79,13 @@ const editWallet = async (
     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
     return { success: `Wallet updated successfully`, error: null }
   } catch (error: any) {
-    await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
+    //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
+    if (error.code === 11000) {
+      return {
+        success: null,
+        error: "Wallet with that title already exists",
+      }
+    }
     return { success: null, error: error?.message || "An error occurred" }
   }
 }
@@ -98,6 +118,30 @@ const getCategories = async (): Promise<any> => {
     return categories
   } catch (error: any) {
     return error?.message || "An error occurred"
+  }
+}
+
+const addCategory = async (formData: FormData): Promise<IActionState> => {
+  try {
+    await connectDB()
+    const session = await auth()
+    const title = formData.get("title") as string
+    const user = session?.user?.email as string
+
+    const category = new CategoryModel({ title, user })
+    await category.save()
+    revalidatePath(`/`, "page")
+    //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
+    return { success: `Category ${title} created successfully`, error: null }
+  } catch (error: any) {
+    //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
+    if (error.code === 11000) {
+      return {
+        success: null,
+        error: "Category with that title already exists",
+      }
+    }
+    return { success: null, error: error?.message || "An error occurred" }
   }
 }
 
@@ -144,7 +188,18 @@ const createTransaction = async (
     const user = session?.user?.email as string
     const type = formData.get("type") as string
     const wallet_id = formData.get("wallet_id") as string
-    const category_id = formData.get("category_id") as string
+    let category_id = formData.get("category_id") as string
+
+    //determine if a new category flag was added from the form
+    //NEW_CATEGORY=sometitle_7458TYH87
+    const isNewCategory = newCategory(category_id)
+
+    if (isNewCategory) {
+      const title = isNewCategory
+      const category = new CategoryModel({ title, user })
+      await category.save()
+      category_id = category._id
+    }
 
     const payload = {
       wallet_id: wallet_id,
@@ -162,7 +217,13 @@ const createTransaction = async (
     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
     return { success: `Transaction created successfully`, error: null }
   } catch (error: any) {
-    await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
+    //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
+    if (error.code === 11000) {
+      return {
+        success: null,
+        error: "Category with that title already exists",
+      }
+    }
     return { success: null, error: error?.message || "An error occurred" }
   }
 }
@@ -180,8 +241,19 @@ const editTransaction = async (
     const user = session?.user?.email as string
     const type = formData.get("type") as string
     const wallet_id = formData.get("wallet_id") as string
-    const category_id = formData.get("category_id") as string
+    let category_id = formData.get("category_id") as string
     const id = formData.get("id") as string
+
+    //determine if a new category flag was added from the form
+    //NEW_CATEGORY=sometitle_7458TYH87
+    const isNewCategory = newCategory(category_id)
+
+    if (isNewCategory) {
+      const title = isNewCategory
+      const category = new CategoryModel({ title, user })
+      await category.save()
+      category_id = category._id
+    }
 
     const payload = {
       wallet_id: wallet_id,
@@ -198,7 +270,7 @@ const editTransaction = async (
     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
     return { success: `Transaction updated successfully`, error: null }
   } catch (error: any) {
-    await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
+    //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
     return { success: null, error: error?.message || "An error occurred" }
   }
 }

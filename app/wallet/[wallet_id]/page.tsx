@@ -23,7 +23,7 @@ const TransactionDetailPage = async () => {
     >
       <div className="flex flex-1 flex-col items-center h-full overflow-hidden relative">
         <MenuButton />
-        <Link href={`/wallet/${wallet._id}/add_transaction`}>
+        <Link href={`/wallet/${wallet?._id}/add_transaction`}>
           <IconButton
             aria-label="add"
             color="success"
