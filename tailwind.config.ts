@@ -21,6 +21,7 @@ const config: Config = {
         theme: {
           dark: "#30343f",
           white: "#fafaff",
+          google: "#f0f3f8",
           darkWhite: "#F1F1F1",
           lightBlue: "#B8C9FF",
           blue: "#273469",

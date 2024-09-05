@@ -1,27 +1,15 @@
 import { Suspense } from "react"
 import Link from "next/link"
-import { auth } from "@/auth"
-import { headers } from "next/headers"
-import connectDB from "../../../db.connect"
-const { TransactionModel } = require("@/databases/mongodb/models")
 import DeleteBtn from "../DeleteBtn"
+import { getTransaction, getCategory } from "@/serverActionsDbDriver"
+import { ITransaction, ICategory } from "@/databases/mongodb/models"
 import moment from "moment"
 
 //-----------------------------------------------------------------------------
 
 const TransactionPage = async () => {
-  const headerList = headers()
-  //passed from middleware.ts
-  const pathname = headerList.get("x-current-path")
-  const id = pathname?.match(/\/transaction\/([^\/]+)/) as string[]
-
-  const session = await auth()
-  await connectDB()
-
-  const transaction = await TransactionModel.findOne({
-    _id: id[1],
-    user: session?.user?.email,
-  })
+  const transaction: ITransaction = await getTransaction()
+  const category: ICategory = await getCategory(transaction.category_id)
 
   if (!transaction) {
     return (
@@ -32,7 +20,7 @@ const TransactionPage = async () => {
       >
         Transaction not found
       </div>
-    );
+    )
   }
 
   return (
@@ -45,21 +33,24 @@ const TransactionPage = async () => {
     >
       <div className="flex flex-1 items-center justify-center p-8">
         <div className="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-md">
-          <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+          <h1 className="text-xl font-semibold text-gray-800 mb-4">
             Transaction Details
           </h1>
-          <p className="text-lg text-gray-700 mb-2">
+          <p className="text-md text-gray-700 mb-2">
             <strong>Description:</strong> {transaction.description}
           </p>
-          <p className="text-lg text-gray-700 mb-2">
+          <p className="text-md text-gray-700 mb-2">
+            <strong>Category:</strong> {category.title}
+          </p>
+          <p className="text-md text-gray-700 mb-2">
             <strong>Date:</strong>{" "}
             {moment(transaction.date).format("ddd DD MMM YYYY")}
           </p>
-          <p className="text-lg text-gray-700 mb-2">
+          <p className="text-md text-gray-700 mb-2">
             <strong>Created at:</strong>{" "}
             {moment(transaction.createdAt).format("ddd DD MMM YY - HH:mm:ss")}
           </p>
-          <p className={`text-lg font-semibold`}>
+          <p className={`text-md font-semibold`}>
             <span>Amount:</span>{" "}
             <strong
               className={`${
@@ -73,7 +64,7 @@ const TransactionPage = async () => {
           </p>
           <div className="flex space-x-4 mt-6 justify-end">
             <DeleteBtn />
-            <Link href={`/transaction/${id[1]}/edit`}>
+            <Link href={`/transaction/${transaction._id}/edit`}>
               <button className="px-4 py-2 bg-theme-dark text-white rounded-md shadow-sm hover:bg-opacity-90 select-none">
                 Edit
               </button>

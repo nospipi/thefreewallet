@@ -27,6 +27,8 @@ export interface ITransaction extends mongoose.Document {
   type: string
   date: string
   description: string
+  createdAt: string
+  updatedAt: string
 }
 
 //-------------------------------------------------------------------------------

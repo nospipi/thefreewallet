@@ -121,6 +121,16 @@ const getCategories = async (): Promise<any> => {
   }
 }
 
+const getCategory = async (id: string): Promise<any> => {
+  try {
+    await connectDB()
+    const category = await CategoryModel.findById(id)
+    return category
+  } catch (error: any) {
+    return error?.message || "An error occurred"
+  }
+}
+
 const addCategory = async (formData: FormData): Promise<IActionState> => {
   try {
     await connectDB()
@@ -154,7 +164,9 @@ const getTransactions = async (): Promise<any> => {
     const wallet_id = segments[2] || ""
     const session = await auth()
     const user = session?.user?.email as string
-    const transactions = await TransactionModel.find({ user, wallet_id })
+    const transactions = await TransactionModel.find({ user, wallet_id }).sort({
+      date: -1,
+    })
     return transactions
   } catch (error: any) {
     return error?.message || "An error occurred"
@@ -300,6 +312,7 @@ export {
   editWallet,
   deleteWallet,
   getCategories,
+  getCategory,
   getTransactions,
   getTransaction,
   createTransaction,
