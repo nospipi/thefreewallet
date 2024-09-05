@@ -24,7 +24,7 @@ const TransactionDetailPage = async () => {
       <div className="flex flex-1 flex-col items-center h-full overflow-hidden relative">
         <MenuButton />
 
-        <div className="flex flex-col gap-2 overflow-y-auto p-1">
+        <div className="flex flex-col gap-2 overflow-y-auto p-1 w-[100%] max-w-[500px] ">
           <div className="p-4 rounded-lg bg-white text-grey border ">
             <h2 className="text-lg text-theme-dark font-bold mb-3">
               {wallet?.title}

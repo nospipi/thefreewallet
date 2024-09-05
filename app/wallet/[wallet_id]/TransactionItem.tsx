@@ -3,8 +3,7 @@ import moment from "moment"
 const {
   TransactionModel,
   CategoryModel,
-} = require("@/databases/mongodb/models");
-
+} = require("@/databases/mongodb/models")
 
 //-----------------------------------------------------------------------------
 
@@ -13,8 +12,8 @@ interface TransactionItemProps {
 }
 
 const TransactionItem = async ({ id }: TransactionItemProps) => {
-  const transaction = await TransactionModel.findById(id);
-  const category = await CategoryModel.findById(transaction.category_id);
+  const transaction = await TransactionModel.findById(id)
+  const category = await CategoryModel.findById(transaction.category_id)
 
   return (
     <Link href="/transaction/[id]" as={`/transaction/${id}`}>
@@ -26,14 +25,8 @@ const TransactionItem = async ({ id }: TransactionItemProps) => {
           <div className="text-sm text-gray-500">
             Date: {moment(transaction.date).format("ddd DD MMM YYYY")}
           </div>
-          <div className="text-sm text-gray-500">
-            Category: {category?.title || "Invalid Category"}
-          </div>
           <div className="flex flex-row flex-1 text-sm text-gray-500 gap-6 justify-between items-center">
-            <span>
-              Created at:{" "}
-              {moment(transaction.createdAt).format("ddd DD MMM YYYY hh:mm A")}
-            </span>
+            <span>Category: {category?.title || "Invalid Category"}</span>
             <span
               className={`font-semibold ${
                 transaction.type === "income"
@@ -47,7 +40,7 @@ const TransactionItem = async ({ id }: TransactionItemProps) => {
         </div>
       </div>
     </Link>
-  );
+  )
 }
 
 export default TransactionItem
