@@ -33,7 +33,15 @@ const Account = async () => {
         </Link>
       </div>
       <p className="text-xs text-gray-500 w-full text-center absolute bottom-0 mb-4">
-        © 2024 Vaggelis Magonezos, all rights reserved
+        © 2024{" "}
+        <Link
+          target="_blank"
+          href={"https://vaggelis.dev"}
+          className="font-semibold hover:text-theme-dark"
+        >
+          Vaggelis Magonezos
+        </Link>
+        , all rights reserved
       </p>
     </div>
   )

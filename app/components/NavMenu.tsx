@@ -41,6 +41,9 @@ const NavMenu = () => {
         onClick={handleClick}
         sx={{
           padding: "0",
+          "& .MuiTouchRipple-root .MuiTouchRipple-ripple": {
+            color: "black",
+          },
         }}
       >
         <Image
