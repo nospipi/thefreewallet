@@ -1,5 +1,5 @@
 import NewTransactionForm from "./NewTransactionForm.client"
-import { getCategories } from "@/databases/postgres/server_actions"
+import { getCategories } from "@/databases/mongodb/server_actions";
 
 //-------------------------------------------------------------------------
 

@@ -2,15 +2,16 @@ import Link from "next/link"
 import { getWallet, getTransactions } from "@/serverActionsDbDriver"
 import TransactionItem from "./TransactionItem"
 import { Suspense } from "react"
-import { IconButton } from "@mui/material"
-import AddIcon from "@mui/icons-material/Add"
-import MenuButton from "./MenuButton"
+
+import { IconButton } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import MenuButton from "./MenuButton";
 
 //-----------------------------------------------------------------------------
 
 const TransactionDetailPage = async () => {
-  const wallet = await getWallet()
-  const transactions = await getTransactions()
+  const wallet = await getWallet();
+  const transactions = await getTransactions();
 
   return (
     <Suspense
@@ -22,7 +23,7 @@ const TransactionDetailPage = async () => {
     >
       <div className="flex flex-1 flex-col items-center h-full overflow-hidden relative">
         <MenuButton />
-        <Link href={`/wallet/${wallet?._id}/add_transaction`}>
+        <Link href={`/wallet/${wallet._id}/add_transaction`}>
           <IconButton
             aria-label="add"
             color="success"
@@ -94,7 +95,7 @@ const TransactionDetailPage = async () => {
                   key={transaction._id.toString()}
                   id={transaction._id.toString()}
                 />
-              )
+              );
             })
           ) : (
             <></>
@@ -107,7 +108,7 @@ const TransactionDetailPage = async () => {
         )}
       </div>
     </Suspense>
-  )
-}
+  );
+};
 
 export default TransactionDetailPage

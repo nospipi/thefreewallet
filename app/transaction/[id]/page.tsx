@@ -27,12 +27,12 @@ const TransactionPage = async () => {
     return (
       <div
         className="
-        flex items-center justify-center h-screen bg-theme-white text-theme-dark
+        flex flex-1 items-center justify-center h-screen text-theme-dark
     "
       >
         Transaction not found
       </div>
-    )
+    );
   }
 
   return (
