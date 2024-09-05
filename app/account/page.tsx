@@ -11,7 +11,7 @@ const Account = async () => {
   const image = session?.user?.image as string
 
   return (
-    <div className="flex flex-1 items-center justify-center min-h-screen">
+    <div className="flex flex-1 items-center justify-center p-5">
       <div className="flex flex-col items-center justify-center gap-5 bg-white shadow-lg rounded-lg p-8 w-full max-w-sm text-center">
         <Image
           src={image}
