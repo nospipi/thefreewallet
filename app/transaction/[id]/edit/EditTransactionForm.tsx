@@ -1,56 +1,56 @@
-"use client";
+"use client"
 
-import { useActionState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import TextField from "@mui/material/TextField";
-import { toast } from "react-hot-toast";
-import { editTransaction, IActionState } from "@/serverActionsDbDriver";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+import { useActionState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import TextField from "@mui/material/TextField"
+import { toast } from "react-hot-toast"
+import { editTransaction, IActionState } from "@/serverActionsDbDriver"
+import Radio from "@mui/material/Radio"
+import RadioGroup from "@mui/material/RadioGroup"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import FormControl from "@mui/material/FormControl"
+import InputLabel from "@mui/material/InputLabel"
+import MenuItem from "@mui/material/MenuItem"
+import Select from "@mui/material/Select"
 
 //---------------------------------------------------------
 
 const NewTransactionForm = ({ transaction, categories }: any) => {
-  const parsedTransaction = JSON.parse(transaction);
-  const parsedCategories = JSON.parse(categories);
-  const router = useRouter();
+  const parsedTransaction = JSON.parse(transaction)
+  const parsedCategories = JSON.parse(categories)
+  const router = useRouter()
 
   const [state, action, isPending] = useActionState(editTransaction, {
     success: null,
     error: null,
-  } as IActionState);
+  } as IActionState)
 
   useEffect(() => {
-    toast.dismiss();
+    toast.dismiss()
 
     if (isPending) {
-      toast.dismiss();
-      toast.loading("Updating Transaction...");
+      toast.dismiss()
+      toast.loading("Updating Transaction...")
     }
     if (state.success) {
-      toast.dismiss();
-      toast.success(state.success);
-      router.back();
+      toast.dismiss()
+      toast.success(state.success)
+      router.back()
     }
     if (state.error) {
-      toast.dismiss();
-      toast.error(state.error);
+      toast.dismiss()
+      toast.error(state.error)
     }
 
     return () => {
-      toast.dismiss();
-    };
-  }, [state.success, state.error, isPending, router]);
+      toast.dismiss()
+    }
+  }, [state.success, state.error, isPending, router])
 
   //---------------------------------------------------------
 
   return (
-    <form action={action} className="space-y-2">
+    <form action={action} autoComplete="off" className="space-y-2">
       <input type="hidden" name="id" value={parsedTransaction._id} />
       <input
         type="hidden"
@@ -146,8 +146,9 @@ const NewTransactionForm = ({ transaction, categories }: any) => {
           Submit
         </button>
         <button
+          type="button"
           onClick={() => {
-            router.back();
+            router.back()
           }}
           className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md shadow-sm hover:bg-gray-300 select-none"
         >
@@ -155,7 +156,7 @@ const NewTransactionForm = ({ transaction, categories }: any) => {
         </button>
       </div>
     </form>
-  );
-};
+  )
+}
 
-export default NewTransactionForm;
+export default NewTransactionForm

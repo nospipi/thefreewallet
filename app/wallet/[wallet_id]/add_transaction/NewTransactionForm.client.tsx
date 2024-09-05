@@ -133,6 +133,7 @@ const NewTransactionForm = ({ categories }: any) => {
           Submit
         </button>
         <button
+          type="button"
           onClick={() => {
             router.back()
           }}

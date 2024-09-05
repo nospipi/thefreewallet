@@ -60,6 +60,7 @@ const EditWalletForm = ({ id, title }: { id: string; title: string }) => {
           Submit
         </button>
         <button
+          type="button"
           onClick={() => {
             router.back()
           }}

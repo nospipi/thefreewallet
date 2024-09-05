@@ -1,17 +1,17 @@
 import Link from "next/link"
 import { getWallet, getTransactions } from "@/serverActionsDbDriver"
+import { IWallet, ITransaction } from "@/databases/mongodb/models"
 import TransactionItem from "./TransactionItem"
 import { Suspense } from "react"
-
-import { IconButton } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import MenuButton from "./MenuButton";
+import { IconButton } from "@mui/material"
+import AddIcon from "@mui/icons-material/Add"
+import MenuButton from "./MenuButton"
 
 //-----------------------------------------------------------------------------
 
 const TransactionDetailPage = async () => {
-  const wallet = await getWallet();
-  const transactions = await getTransactions();
+  const wallet: IWallet = await getWallet()
+  const transactions: ITransaction[] = await getTransactions()
 
   return (
     <Suspense
@@ -95,7 +95,7 @@ const TransactionDetailPage = async () => {
                   key={transaction._id.toString()}
                   id={transaction._id.toString()}
                 />
-              );
+              )
             })
           ) : (
             <></>
@@ -108,7 +108,7 @@ const TransactionDetailPage = async () => {
         )}
       </div>
     </Suspense>
-  );
-};
+  )
+}
 
 export default TransactionDetailPage

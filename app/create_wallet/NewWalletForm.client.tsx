@@ -54,6 +54,7 @@ const NewWalletForm = () => {
           Submit
         </button>
         <button
+          type="button"
           onClick={() => {
             router.back()
           }}
