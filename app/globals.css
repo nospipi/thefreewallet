@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-  height: 100vh;
+  height: 100%;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
 }
