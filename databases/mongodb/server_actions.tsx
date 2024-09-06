@@ -1,5 +1,10 @@
 "use server"
-const { WalletModel, TransactionModel, CategoryModel } = require("./models")
+import {
+  WalletModel,
+  TransactionModel,
+  CategoryModel,
+  ICategory,
+} from "./models"
 import { auth } from "@/auth"
 import connectDB from "../../db.connect"
 import { headers } from "next/headers"
@@ -126,6 +131,50 @@ const getCategory = async (id: string): Promise<any> => {
     await connectDB()
     const category = await CategoryModel.findById(id)
     return category
+  } catch (error: any) {
+    return error?.message || "An error occurred"
+  }
+}
+
+export interface IWalletCategoryStat {
+  title: string
+  amount: number
+}
+
+const getWalletCategoriesStats = async (): Promise<IWalletCategoryStat[]> => {
+  try {
+    await connectDB()
+    const session = await auth()
+    const user = session?.user?.email as string
+    const headerList = headers()
+    const pathname = headerList.get("x-current-path")
+    const segments = pathname?.split("/") || []
+    const wallet_id = segments[2] || ""
+    const categories = await CategoryModel.find({ user })
+    const transactions = await TransactionModel.find({
+      wallet_id,
+      type: "expense",
+    })
+    const stats = categories.map((category: ICategory) => {
+      const transactionsByCategory = transactions.filter(
+        (transaction) =>
+          transaction.category_id.toString() === category._id.toString()
+      )
+      const amount = transactionsByCategory.reduce((acc, transaction) => {
+        if (transaction.type === "expense") {
+          acc -= transaction.amount
+        } else {
+          acc += transaction.amount
+        }
+        return acc
+      }, 0)
+      return {
+        title: category.title,
+        amount: Math.abs(amount), //return the positive value
+      }
+    })
+
+    return stats
   } catch (error: any) {
     return error?.message || "An error occurred"
   }
@@ -312,6 +361,7 @@ export {
   editWallet,
   deleteWallet,
   getCategories,
+  getWalletCategoriesStats,
   getCategory,
   getTransactions,
   getTransaction,

@@ -28,7 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/create_wallet/actions.ts"
+    "app/create_wallet/actions.ts",
+    "app/wallet/[wallet_id]/WalletCategoriesChart.jsx"
   ],
   "exclude": ["node_modules"]
 }

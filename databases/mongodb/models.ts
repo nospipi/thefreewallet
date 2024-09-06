@@ -15,11 +15,13 @@ export interface IWallet extends mongoose.Document {
 }
 
 export interface ICategory extends mongoose.Document {
+  _id: string
   title: string
   user: string
 }
 
 export interface ITransaction extends mongoose.Document {
+  _id: string
   wallet_id: string
   category_id: string
   user: string

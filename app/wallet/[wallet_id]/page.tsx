@@ -1,17 +1,25 @@
-import Link from "next/link"
-import { getWallet, getTransactions } from "@/serverActionsDbDriver"
+import {
+  getWallet,
+  getTransactions,
+  getWalletCategoriesStats,
+} from "@/serverActionsDbDriver"
 import { IWallet, ITransaction } from "@/databases/mongodb/models"
+import { IWalletCategoryStat } from "@/databases/mongodb/server_actions"
 import TransactionItem from "./TransactionItem"
 import { Suspense } from "react"
-import { IconButton } from "@mui/material"
-import AddIcon from "@mui/icons-material/Add"
 import MenuButton from "./MenuButton"
+import WalletCategoriesChart from "./WalletCategoriesChart"
 
 //-----------------------------------------------------------------------------
 
 const TransactionDetailPage = async () => {
   const wallet: IWallet = await getWallet()
   const transactions: ITransaction[] = await getTransactions()
+  const walletCategoriesStats: IWalletCategoryStat[] =
+    await getWalletCategoriesStats()
+
+  const data = walletCategoriesStats.map((item: any) => item.amount)
+  const labels = walletCategoriesStats.map((item: any) => item.title)
 
   return (
     <Suspense
@@ -71,6 +79,9 @@ const TransactionDetailPage = async () => {
                 €{wallet?.balance.toFixed(2)}
               </p>
             </div>
+            {walletCategoriesStats && (
+              <WalletCategoriesChart data={data} labels={labels} />
+            )}
           </div>
 
           {transactions.length ? (
@@ -80,7 +91,7 @@ const TransactionDetailPage = async () => {
                   key={transaction._id.toString()}
                   id={transaction._id.toString()}
                 />
-              );
+              )
             })
           ) : (
             <></>
@@ -93,7 +104,7 @@ const TransactionDetailPage = async () => {
         )}
       </div>
     </Suspense>
-  );
+  )
 }
 
 export default TransactionDetailPage

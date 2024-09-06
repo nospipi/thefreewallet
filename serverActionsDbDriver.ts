@@ -19,6 +19,7 @@ interface IDatabaseActions {
   editWallet: FormFunction
   deleteWallet: FormFunctionWithoutInput
   getCategories: () => Promise<any>
+  getWalletCategoriesStats: () => Promise<any>
   getCategory: (id: string) => Promise<any>
   getTransactions: () => Promise<any>
   getTransaction: () => Promise<any>
@@ -59,6 +60,11 @@ export const deleteWallet: FormFunctionWithoutInput = async () => {
 export const getCategories = async (): Promise<any> => {
   const actions = await getDbActions()
   return actions.getCategories()
+}
+
+export const getWalletCategoriesStats = async (): Promise<any> => {
+  const actions = await getDbActions()
+  return actions.getWalletCategoriesStats()
 }
 
 export const getTransactions = async (): Promise<any> => {
