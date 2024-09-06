@@ -76,14 +76,10 @@ const MenuButton = () => {
             display: "flex",
             alignItems: "center",
             gap: "7px",
-            color: "#229b17",
+            color: "#1d8814",
           }}
         >
-          <AddIcon
-            sx={{
-              fontSize: "small",
-            }}
-          />
+          <AddIcon fontSize="small" />
           <span>Add New Transaction</span>
         </MenuItem>
         <MenuItem
@@ -98,11 +94,7 @@ const MenuButton = () => {
             color: "#226ccc",
           }}
         >
-          <ModeEditIcon
-            sx={{
-              fontSize: "small",
-            }}
-          />
+          <ModeEditIcon fontSize="small" />
           <span>Edit Wallet</span>
         </MenuItem>
 
@@ -116,11 +108,7 @@ const MenuButton = () => {
               color: "#ec5151",
             }}
           >
-            <DeleteIcon
-              sx={{
-                fontSize: "small",
-              }}
-            />
+            <DeleteIcon fontSize="small" />
             <span>Delete Wallet</span>
           </MenuItem>
         </DeleteBtn>
