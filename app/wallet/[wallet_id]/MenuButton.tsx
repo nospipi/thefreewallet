@@ -69,14 +69,14 @@ const MenuButton = () => {
       >
         <MenuItem
           onClick={() => {
-            router.push(`/wallet/${wallet_id}/add_transaction`)
+            router.push(`/wallet/${wallet_id}/add_transaction`);
           }}
           sx={{
             fontSize: "14px",
             display: "flex",
             alignItems: "center",
             gap: "7px",
-            color: "rgb(5 61 5)",
+            color: "#229b17",
           }}
         >
           <AddIcon
@@ -88,14 +88,14 @@ const MenuButton = () => {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            router.push(`/wallet/${wallet_id}/edit`)
+            router.push(`/wallet/${wallet_id}/edit`);
           }}
           sx={{
             fontSize: "14px",
             display: "flex",
             alignItems: "center",
             gap: "7px",
-            color: "rgb(31 78 126)",
+            color: "#226ccc",
           }}
         >
           <ModeEditIcon
@@ -113,7 +113,7 @@ const MenuButton = () => {
               display: "flex",
               alignItems: "center",
               gap: "7px",
-              color: "rgb(112 44 44)",
+              color: "#ec5151",
             }}
           >
             <DeleteIcon
@@ -126,7 +126,7 @@ const MenuButton = () => {
         </DeleteBtn>
       </Popover>
     </>
-  )
+  );
 }
 
 export default MenuButton
