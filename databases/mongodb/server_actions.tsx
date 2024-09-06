@@ -155,6 +155,7 @@ const getWalletCategoriesStats = async (): Promise<IWalletCategoryStat[]> => {
       wallet_id,
       type: "expense",
     })
+    console.log("transactions", transactions)
     const stats = categories.map((category: ICategory) => {
       const transactionsByCategory = transactions.filter(
         (transaction) =>
