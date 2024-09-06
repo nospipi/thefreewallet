@@ -24,7 +24,7 @@ const TransactionDetailPage = async () => {
       <div className="flex flex-1 flex-col items-center h-full overflow-hidden relative">
         <MenuButton />
 
-        <div className="flex flex-col gap-2 overflow-y-auto p-1 w-full max-w-[500px] ">
+        <div className="flex flex-col gap-2 overflow-y-auto overflow-x-hidden p-1 w-full max-w-[500px] ">
           <div className="p-4 rounded-lg bg-white text-grey border ">
             <h2 className="text-lg text-theme-dark font-bold mb-3">
               {wallet?.title}
@@ -80,7 +80,7 @@ const TransactionDetailPage = async () => {
                   key={transaction._id.toString()}
                   id={transaction._id.toString()}
                 />
-              )
+              );
             })
           ) : (
             <></>
@@ -93,7 +93,7 @@ const TransactionDetailPage = async () => {
         )}
       </div>
     </Suspense>
-  )
+  );
 }
 
 export default TransactionDetailPage
