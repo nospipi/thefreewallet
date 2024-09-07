@@ -7,7 +7,7 @@ export const config = {
   matcher: [
     // match all routes except static files and APIs
     //"/((?!api|_next/static|_next/image|favicon.ico).*)",
-    "/((?!api|_next/static|_next/image|manifest.ts|.*\\.png|manifest.webmanifest|manifest.json|favicon.ico|.*\\.server\\.tsx$).*)",
+    "/((?!api|_next/static|_next/image|.*\\.png|manifest.webmanifest|favicon.ico|.*\\.server\\.tsx$).*)",
   ],
 };
 
