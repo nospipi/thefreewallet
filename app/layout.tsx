@@ -12,7 +12,6 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "TheFreeWallet",
   description: "A simple and free budgeting tool",
-  //manifest: "/manifest.json",
 };
 
 //---------------------------------------------------------
