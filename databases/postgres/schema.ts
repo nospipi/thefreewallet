@@ -21,7 +21,7 @@ const createUniqueId = async () => {
 export const wallet = pgTable(
   "wallets",
   {
-    id: varchar("id", { length: 36 }).primaryKey().default(uuidv4()), // Assuming
+    id: varchar("id", { length: 20 }).primaryKey(),
     title: varchar("title", { length: 20 }).notNull(),
     user: varchar("user", { length: 36 }).notNull(),
     transactions_count: integer("transactions_count").notNull().default(0),
