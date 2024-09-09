@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache"
 import db from "./db";
 import { wallet } from "./schema";
 import { eq } from "drizzle-orm/expressions";
-import { v4 as uuidv4 } from "uuid";
 import { nanoid } from "nanoid";
 
 const createUniqueId = async () => {
