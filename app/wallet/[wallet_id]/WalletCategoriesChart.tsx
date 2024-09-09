@@ -41,17 +41,15 @@
 //   );
 // }
 
-
-
-import * as React from "react";
-import { BarChart } from "@mui/x-charts/BarChart";
+import * as React from "react"
+import { BarChart } from "@mui/x-charts/BarChart"
 
 export default function WalletCategoriesChart({
   data,
   labels,
 }: {
-  data: number[];
-  labels: string[];
+  data: number[]
+  labels: string[]
 }) {
   return (
     <div className="overflow-x-auto flex-1">
@@ -73,5 +71,5 @@ export default function WalletCategoriesChart({
         //https://github.com/mui/mui-x/issues/13885
       />
     </div>
-  );
+  )
 }
