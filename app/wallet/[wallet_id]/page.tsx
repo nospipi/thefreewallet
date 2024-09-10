@@ -79,9 +79,9 @@ const TransactionDetailPage = async () => {
                 €{wallet?.balance.toFixed(2)}
               </p>
             </div>
-            {walletCategoriesStats && (
+            {walletCategoriesStats.length ? (
               <WalletCategoriesChart data={data} labels={labels} />
-            )}
+            ) : null}
           </div>
 
           {transactions.length ? (

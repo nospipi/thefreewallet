@@ -150,13 +150,25 @@ const getWalletCategoriesStats = async (): Promise<IWalletCategoryStat[]> => {
     const pathname = headerList.get("x-current-path")
     const segments = pathname?.split("/") || []
     const wallet_id = segments[2] || ""
+    //----------------------------------------------
     const categories = await CategoryModel.find({ user })
     const transactions = await TransactionModel.find({
       wallet_id,
       type: "expense",
     })
+    //there are no transactions with type expense
+    if (!transactions.length) return []
+    const categoriesInExpenses = transactions.map((transaction) => {
+      const category = categories.find(
+        (category) =>
+          category._id.toString() === transaction.category_id.toString()
+      )
+      return category
+    })
 
-    const stats = categories.map((category: ICategory) => {
+    //----------------------------------------------
+
+    const stats = categoriesInExpenses.map((category: ICategory) => {
       const transactionsByCategory = transactions.filter(
         (transaction) =>
           transaction.category_id.toString() === category._id.toString()
