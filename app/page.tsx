@@ -1,9 +1,9 @@
 import { Suspense } from "react"
 import connectDB from "../db.connect"
 const { WalletModel } = require("../databases/mongodb/models")
-import { getWallets } from "@/databases/postgres/server_actions";
-import { auth } from "@/auth";
-import Link from "next/link";
+import { getWallets } from "@/databases/postgres/server_actions"
+import { auth } from "@/auth"
+import Link from "next/link"
 // import {
 //   dehydrate,
 //   HydrationBoundary,
@@ -14,12 +14,7 @@ import Link from "next/link";
 //--------------------------------------------------------------
 
 const Home = async () => {
-  const session = await auth();
-  const user = session?.user?.email as string;
-  await connectDB();
-
-  //const wallets = await WalletModel.find({ user }).sort({ _id: -1 })
-  const wallets = await getWallets();
+  const wallets = await getWallets()
 
   return (
     <Suspense
@@ -47,7 +42,7 @@ const Home = async () => {
               </p>
             )}
             {wallets?.map((wallet: any) => (
-              <Link key={wallet._id} href={`/wallet/${wallet._id}`}>
+              <Link key={wallet.id} href={`/wallet/${wallet.id}`}>
                 <button className="w-full flex justify-between items-center gap-1 px-4 py-2 bg-white text-black hover:bg-theme-darkWhite">
                   <span>{wallet.title}</span>
                   <span className="text-sm text-gray-500">
@@ -80,7 +75,7 @@ const Home = async () => {
         </p>
       </div>
     </Suspense>
-  );
-};
+  )
+}
 
 export default Home

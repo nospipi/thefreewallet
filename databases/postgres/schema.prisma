@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Category {
+  id          String        @id @default(uuid())
+  title       String
+  user        String
+  transactions Transaction[] // One-to-many relationship
+
+  @@unique([title, user]) 
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  wallet_id   String
+  wallet      Wallet    @relation(fields: [wallet_id], references: [id],onDelete: Cascade) // Foreign key relationship //delete transaction when wallet is deleted
+  category_id String
+  category    Category  @relation(fields: [category_id], references: [id]) // Foreign key relationship
+  user        String
+  amount      Float
+  type        String
+  date        DateTime
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+
+model Wallet {
+  id                           String   @id @default(cuid())
+  title                       String
+  user                        String
+  transactions_count          Int      @default(0)
+  expenses_transactions_count Int      @default(0)
+  income_transactions_count   Int      @default(0)
+  balance                     Float    @default(0)
+  expenses                    Float    @default(0)
+  income                      Float    @default(0)
+  transactions                Transaction[] // One-to-many relationship
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+
+  @@unique([title, user]) 
+}
+

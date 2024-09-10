@@ -1,6 +1,7 @@
 import EditWalletForm from "./EditWalletForm.client"
-import { getWallet } from "@/serverActionsDbDriver"
+//import { getWallet } from "@/serverActionsDbDriver"
 import { IWallet } from "@/databases/mongodb/models"
+import { getWallet } from "@/databases/postgres/server_actions"
 
 //--------------------------------------------------------------
 
@@ -12,7 +13,7 @@ const AddEntryPage = async () => {
         <h2 className="text-2xl font-semibold mb-6 text-gray-700 text-center">
           Edit Wallet
         </h2>
-        <EditWalletForm id={wallet._id} title={wallet.title} />
+        <EditWalletForm id={wallet.id} title={wallet.title} />
       </div>
     </div>
   )

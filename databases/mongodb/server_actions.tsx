@@ -73,11 +73,9 @@ const editWallet = async (
 ): Promise<IActionState> => {
   try {
     await connectDB()
-    const session = await auth()
     const title = formData.get("title") as string
-    const user = session?.user?.email as string
     const id = formData.get("id") as string
-    const payload = { title, user }
+    const payload = { title }
     //throw new Error("test error"); // Simulate error
     await WalletModel.findOneAndUpdate({ _id: id }, payload)
     revalidatePath(`/wallet/${id}`, "page")

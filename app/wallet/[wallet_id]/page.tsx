@@ -1,9 +1,10 @@
-import {
-  getWallet,
-  getTransactions,
-  getWalletCategoriesStats,
-} from "@/serverActionsDbDriver"
+// import {
+//   getWallet,
+//   getTransactions,
+//   getWalletCategoriesStats,
+// } from "@/serverActionsDbDriver"
 import { IWallet, ITransaction } from "@/databases/mongodb/models"
+import { getWallet } from "@/databases/postgres/server_actions"
 import { IWalletCategoryStat } from "@/databases/mongodb/server_actions"
 import TransactionItem from "./TransactionItem"
 import { Suspense } from "react"
@@ -14,12 +15,12 @@ import WalletCategoriesChart from "./WalletCategoriesChart"
 
 const TransactionDetailPage = async () => {
   const wallet: IWallet = await getWallet()
-  const transactions: ITransaction[] = await getTransactions()
-  const walletCategoriesStats: IWalletCategoryStat[] =
-    await getWalletCategoriesStats()
+  //const transactions: ITransaction[] = await getTransactions()
+  // const walletCategoriesStats: IWalletCategoryStat[] =
+  //   await getWalletCategoriesStats()
 
-  const data = walletCategoriesStats.map((item: any) => item.amount)
-  const labels = walletCategoriesStats.map((item: any) => item.title)
+  // const data = walletCategoriesStats.map((item: any) => item.amount)
+  // const labels = walletCategoriesStats.map((item: any) => item.title)
 
   return (
     <Suspense
@@ -79,12 +80,12 @@ const TransactionDetailPage = async () => {
                 €{wallet?.balance.toFixed(2)}
               </p>
             </div>
-            {walletCategoriesStats && (
+            {/* {walletCategoriesStats && (
               <WalletCategoriesChart data={data} labels={labels} />
-            )}
+            )} */}
           </div>
 
-          {transactions.length ? (
+          {/* {transactions.length ? (
             transactions.map((transaction: any) => {
               return (
                 <TransactionItem
@@ -95,13 +96,13 @@ const TransactionDetailPage = async () => {
             })
           ) : (
             <></>
-          )}
+          )} */}
         </div>
-        {!transactions.length && (
+        {/* {!transactions.length && (
           <div className="flex flex-1 items-center justify-center">
             No transactions found
           </div>
-        )}
+        )} */}
       </div>
     </Suspense>
   )
