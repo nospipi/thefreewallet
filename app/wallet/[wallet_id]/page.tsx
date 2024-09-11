@@ -83,6 +83,8 @@ const TransactionDetailPage = async () => {
             {/* {walletCategoriesStats && (
               <WalletCategoriesChart data={data} labels={labels} />
             )} */}
+
+            <WalletCategoriesChart />
           </div>
 
           {/* {transactions.length ? (

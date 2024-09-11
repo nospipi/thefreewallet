@@ -34,8 +34,11 @@
     "next-auth": "^5.0.0-beta.20",
     "prisma": "^5.19.1",
     "react": "19.0.0-rc-a19a8ab4-20240829",
+    "react-charts": "^3.0.0-beta.57",
     "react-dom": "19.0.0-rc-a19a8ab4-20240829",
-    "react-hot-toast": "^2.4.1"
+    "react-hot-toast": "^2.4.1",
+    "react-use": "^17.5.1",
+    "recharts": "^2.12.7"
   },
   "devDependencies": {
     "@types/moment": "^2.11.29",
