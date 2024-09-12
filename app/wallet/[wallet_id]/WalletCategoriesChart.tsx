@@ -89,7 +89,7 @@ export default function WalletCategoriesChart({
         //bar label style
 
         barLabel={(item, context) => {
-          return `€ ${item.value}`
+          return `€ ${item.value?.toFixed(2)}`
         }}
         //borderRadius={5}
 
