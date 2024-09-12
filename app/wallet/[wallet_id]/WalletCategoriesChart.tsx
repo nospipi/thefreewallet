@@ -56,6 +56,7 @@ export default function WalletCategoriesChart({
         series={[{ data: data, id: "uvId" }]}
         layout="horizontal"
         leftAxis={{
+          disableLine: true,
           disableTicks: true,
           tickLabelStyle: {
             fontSize: 8,
@@ -75,7 +76,7 @@ export default function WalletCategoriesChart({
             scaleType: "band",
             colorMap: {
               type: "ordinal",
-              colors: ["#B8CDE0", "#A9ADB4"],
+              colors: ["#C0D4E6", "#C2C5CA"],
             },
           },
         ]}
