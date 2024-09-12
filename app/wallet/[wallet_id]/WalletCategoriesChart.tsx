@@ -74,7 +74,7 @@ export default function WalletCategoriesChart({
           },
         ]}
         barLabel="value"
-        borderRadius={5}
+        //borderRadius={5}
         xAxis={[
           {
             labelStyle: { fontSize: 5 },
