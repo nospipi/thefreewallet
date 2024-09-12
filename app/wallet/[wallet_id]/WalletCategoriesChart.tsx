@@ -4,7 +4,7 @@ import * as React from "react"
 import { BarChart } from "@mui/x-charts/BarChart"
 import { useMeasure } from "react-use"
 
-const calculateChartHeight = (dataLength: number) => {
+const calculateChartHeight = (dataLength: number): number => {
   const baseHeight = 100
   const incrementRate = 25 // Height increase per additional data point
   if (dataLength < 3) {
@@ -31,7 +31,7 @@ export default function WalletCategoriesChart({
     >
       <div className="absolute inset-0 opacity-20">
         <span className="absolute inset-0 flex justify-center items-center">
-          EXPENSES
+          EXPENSES €
         </span>
       </div>
       <BarChart
@@ -73,22 +73,26 @@ export default function WalletCategoriesChart({
             valueFormatter: (value) => `${value.slice(0, 5)}..`,
             data: labels,
             scaleType: "band",
-
             colorMap: {
               type: "ordinal",
               colors: ["#B8CDE0", "#A9ADB4"],
             },
           },
         ]}
-        barLabel="value"
-        //borderRadius={5}
-        xAxis={[
-          {
-            labelStyle: { fontSize: 5 },
-            tickLabelStyle: { fontSize: 5 },
-            label: "Amount",
+        //barLabel="value"
+        sx={{
+          ".MuiBarLabel-root": {
+            fontSize: 8,
+            fontWeight: "bold",
           },
-        ]}
+        }}
+        //bar label style
+
+        barLabel={(item, context) => {
+          return `€ ${item.value}`
+        }}
+        //borderRadius={5}
+
         //sx={{ "&&": { touchAction: "auto" } }}
         //https://github.com/mui/mui-x/issues/13885
       />
