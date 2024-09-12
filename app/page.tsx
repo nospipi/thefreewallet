@@ -1,8 +1,5 @@
 import { Suspense } from "react"
-import connectDB from "../db.connect"
-const { WalletModel } = require("../databases/mongodb/models")
-import { getWallets } from "@/databases/postgres/server_actions"
-import { auth } from "@/auth"
+import { getWallets } from "@/serverActionsDbDriver"
 import Link from "next/link"
 // import {
 //   dehydrate,

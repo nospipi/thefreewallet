@@ -14,6 +14,7 @@ export type FormFunction = (
 export type FormFunctionWithoutInput = () => Promise<IActionState>
 
 interface IDatabaseActions {
+  getWallets: () => Promise<any>
   getWallet: () => Promise<any>
   createWallet: FormFunction
   editWallet: FormFunction
@@ -32,9 +33,16 @@ interface IDatabaseActions {
 const getDbActions = async (): Promise<IDatabaseActions> => {
   if (DATABASE === "MONGODB") {
     return await import("@/databases/mongodb/server_actions")
+  } else if (DATABASE === "POSTGRES") {
+    return await import("@/databases/postgres/server_actions")
   } else {
     throw new Error("DATABASE environment variable is not set or is invalid")
   }
+}
+
+export const getWallets = async (): Promise<any> => {
+  const actions = await getDbActions()
+  return actions.getWallets()
 }
 
 export const getWallet = async (): Promise<any> => {

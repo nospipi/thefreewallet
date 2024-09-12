@@ -1,7 +1,7 @@
 import EditWalletForm from "./EditWalletForm.client"
 //import { getWallet } from "@/serverActionsDbDriver"
 import { IWallet } from "@/databases/mongodb/models"
-import { getWallet } from "@/databases/postgres/server_actions"
+import { getWallet } from "@/serverActionsDbDriver"
 
 //--------------------------------------------------------------
 

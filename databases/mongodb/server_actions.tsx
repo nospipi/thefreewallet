@@ -26,6 +26,18 @@ const newCategory = (input: string): string | false => {
 
 //-----------------------------------------------------------------------------
 
+const getWallets = async (): Promise<any> => {
+  try {
+    await connectDB()
+    const session = await auth()
+    const user = session?.user?.email as string
+    const wallets = await WalletModel.find({ user }).sort({ createdAt: -1 })
+    return wallets
+  } catch (error: any) {
+    return error?.message || "An error occurred"
+  }
+}
+
 const getWallet = async (): Promise<any> => {
   try {
     await connectDB()
@@ -210,9 +222,7 @@ const getTransactions = async (): Promise<any> => {
     const pathname = headerList.get("x-current-path")
     const segments = pathname?.split("/") || []
     const wallet_id = segments[2] || ""
-    const session = await auth()
-    const user = session?.user?.email as string
-    const transactions = await TransactionModel.find({ user, wallet_id }).sort({
+    const transactions = await TransactionModel.find({ wallet_id }).sort({
       date: -1,
     })
     return transactions
@@ -264,7 +274,6 @@ const createTransaction = async (
     const payload = {
       wallet_id: wallet_id,
       category_id: category_id,
-      user,
       type,
       amount,
       date,
@@ -318,7 +327,6 @@ const editTransaction = async (
     const payload = {
       wallet_id: wallet_id,
       category_id: category_id,
-      user,
       type,
       amount,
       date,
@@ -355,6 +363,7 @@ const deleteTransaction = async (): Promise<IActionState> => {
 }
 
 export {
+  getWallets,
   getWallet,
   createWallet,
   editWallet,

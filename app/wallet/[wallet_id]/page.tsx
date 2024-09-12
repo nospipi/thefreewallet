@@ -4,7 +4,7 @@
 //   getWalletCategoriesStats,
 // } from "@/serverActionsDbDriver"
 import { IWallet, ITransaction } from "@/databases/mongodb/models"
-import { getWallet } from "@/databases/postgres/server_actions"
+import { getWallet } from "@/serverActionsDbDriver"
 import { IWalletCategoryStat } from "@/databases/mongodb/server_actions"
 import TransactionItem from "./TransactionItem"
 import { Suspense } from "react"
@@ -84,7 +84,7 @@ const TransactionDetailPage = async () => {
               <WalletCategoriesChart data={data} labels={labels} />
             )} */}
 
-            <WalletCategoriesChart />
+            {/* <WalletCategoriesChart /> */}
           </div>
 
           {/* {transactions.length ? (

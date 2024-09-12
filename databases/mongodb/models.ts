@@ -24,7 +24,6 @@ export interface ITransaction extends mongoose.Document {
   _id: string
   wallet_id: string
   category_id: string
-  user: string
   amount: number
   type: string
   date: string
@@ -83,7 +82,6 @@ const transactionSchema = new mongoose.Schema<ITransaction>(
   {
     wallet_id: { type: String, required: true },
     category_id: { type: String, required: true },
-    user: { type: String, required: true },
     amount: { type: Number, required: true },
     type: { type: String, required: true },
     date: {
