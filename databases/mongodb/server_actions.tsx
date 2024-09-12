@@ -158,13 +158,22 @@ const getWalletCategoriesStats = async (): Promise<IWalletCategoryStat[]> => {
     })
     //there are no transactions with type expense
     if (!transactions.length) return []
-    const categoriesInExpenses = transactions.map((transaction) => {
+    const categoriesInExpenses = transactions.reduce((acc, transaction) => {
       const category = categories.find(
         (category) =>
           category._id.toString() === transaction.category_id.toString()
       )
-      return category
-    })
+
+      // Check if category is already in the accumulator by its _id
+      if (
+        category &&
+        !acc.some((c: any) => c._id.toString() === category._id.toString())
+      ) {
+        acc.push(category)
+      }
+
+      return acc
+    }, [])
 
     //----------------------------------------------
 

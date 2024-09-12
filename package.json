@@ -27,7 +27,8 @@
     "next-auth": "^5.0.0-beta.20",
     "react": "19.0.0-rc-a19a8ab4-20240829",
     "react-dom": "19.0.0-rc-a19a8ab4-20240829",
-    "react-hot-toast": "^2.4.1"
+    "react-hot-toast": "^2.4.1",
+    "react-use": "^17.5.1"
   },
   "devDependencies": {
     "@types/moment": "^2.11.29",
