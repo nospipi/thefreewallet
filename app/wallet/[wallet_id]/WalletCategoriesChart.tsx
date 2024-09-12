@@ -26,8 +26,14 @@ export default function WalletCategoriesChart({
     <div
       //@ts-expect-error
       ref={ref}
-      className="overflow-x-auto"
+      //className="overflow-x-auto"
+      className="relative"
     >
+      <div className="absolute inset-0 opacity-20">
+        <span className="absolute inset-0 flex justify-center items-center">
+          EXPENSES
+        </span>
+      </div>
       <BarChart
         // width={500}
         // height={250}
@@ -67,6 +73,7 @@ export default function WalletCategoriesChart({
             valueFormatter: (value) => `${value.slice(0, 5)}..`,
             data: labels,
             scaleType: "band",
+
             colorMap: {
               type: "ordinal",
               colors: ["#B8CDE0", "#A9ADB4"],
@@ -79,6 +86,7 @@ export default function WalletCategoriesChart({
           {
             labelStyle: { fontSize: 5 },
             tickLabelStyle: { fontSize: 5 },
+            label: "Amount",
           },
         ]}
         //sx={{ "&&": { touchAction: "auto" } }}
