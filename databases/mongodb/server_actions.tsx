@@ -32,6 +32,7 @@ const getWallets = async (): Promise<any> => {
     const session = await auth()
     const user = session?.user?.email as string
     const wallets = await WalletModel.find({ user }).sort({ createdAt: -1 })
+
     return wallets
   } catch (error: any) {
     return error?.message || "An error occurred"
@@ -128,7 +129,7 @@ const getCategories = async (): Promise<any> => {
     await connectDB()
     const session = await auth()
     const user = session?.user?.email as string
-    const categories = await CategoryModel.find({ user }).select("title _id")
+    const categories = await CategoryModel.find({ user }).select("title id")
     //throw new Error("test error"); // Simulate error
     return categories
   } catch (error: any) {
@@ -169,7 +170,7 @@ const getWalletCategoriesStats = async (): Promise<IWalletCategoryStat[]> => {
     const stats = categories.map((category: ICategory) => {
       const transactionsByCategory = transactions.filter(
         (transaction) =>
-          transaction.category_id.toString() === category._id.toString()
+          transaction.category_id.toString() === category.id.toString()
       )
       const amount = transactionsByCategory.reduce((acc, transaction) => {
         if (transaction.type === "expense") {
@@ -231,13 +232,8 @@ const getTransactions = async (): Promise<any> => {
   }
 }
 
-const getTransaction = async (): Promise<any> => {
+const getTransaction = async (id: string): Promise<any> => {
   try {
-    await connectDB()
-    const headerList = headers()
-    const pathname = headerList.get("x-current-path")
-    const segments = pathname?.split("/") || []
-    const id = segments[2] || ""
     const transaction = await TransactionModel.findOne({ _id: id })
     return transaction
   } catch (error: any) {
@@ -268,7 +264,7 @@ const createTransaction = async (
       const title = isNewCategory
       const category = new CategoryModel({ title, user })
       await category.save()
-      category_id = category._id
+      category_id = category.id
     }
 
     const payload = {
@@ -321,7 +317,7 @@ const editTransaction = async (
       const title = isNewCategory
       const category = new CategoryModel({ title, user })
       await category.save()
-      category_id = category._id
+      category_id = category.id
     }
 
     const payload = {
@@ -369,8 +365,8 @@ export {
   editWallet,
   deleteWallet,
   getCategories,
-  getWalletCategoriesStats,
   getCategory,
+  getWalletCategoriesStats,
   getTransactions,
   getTransaction,
   createTransaction,
@@ -379,11 +375,3 @@ export {
 }
 
 //------------------------------------------------------------------------------
-
-//   return redirect(
-//     `/create_wallet?wallet_created_success=Wallet ${title} created successfully`
-//   ); // https://nextjs.org/docs/app/api-reference/functions/redirect
-//   // ⓘ In Server Actions and Route Handlers, redirect should be called after the try/catch block.
-
-//if (error.message === "NEXT_REDIRECT") throw error; //https://stackoverflow.com/a/78081880/14718856 //next redirect returns error by default so we intercept it
-//return redirect(`/create_wallet?wallet_created_error=${error?.message}`);

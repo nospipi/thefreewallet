@@ -23,11 +23,10 @@ interface IDatabaseActions {
   getWalletCategoriesStats: () => Promise<any>
   getCategory: (id: string) => Promise<any>
   getTransactions: () => Promise<any>
-  getTransaction: () => Promise<any>
+  getTransaction: (id: string) => Promise<any>
   createTransaction: FormFunction
   editTransaction: FormFunction
   deleteTransaction: FormFunctionWithoutInput
-  // Add other action types here if needed
 }
 
 const getDbActions = async (): Promise<IDatabaseActions> => {
@@ -80,9 +79,9 @@ export const getTransactions = async (): Promise<any> => {
   return actions.getTransactions()
 }
 
-export const getTransaction = async (): Promise<any> => {
+export const getTransaction = async (id: string): Promise<any> => {
   const actions = await getDbActions()
-  return actions.getTransaction()
+  return actions.getTransaction(id)
 }
 
 export const createTransaction: FormFunction = async (

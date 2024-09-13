@@ -19,7 +19,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 
 //---------------------------------------------------------
 
-const NewTransactionForm = ({ transaction, categories }: any) => {
+const EditTransactionForm = ({ transaction, categories }: any) => {
   const parsedTransaction = JSON.parse(transaction)
   const parsedCategories = JSON.parse(categories)
   const [categoriesList, setCategoriesList] = useState(parsedCategories)
@@ -59,7 +59,7 @@ const NewTransactionForm = ({ transaction, categories }: any) => {
 
   return (
     <form action={action} autoComplete="off" className="space-y-2">
-      <input type="hidden" name="id" value={parsedTransaction._id} />
+      <input type="hidden" name="id" value={parsedTransaction.id} />
       <input
         type="hidden"
         name="wallet_id"
@@ -111,7 +111,7 @@ const NewTransactionForm = ({ transaction, categories }: any) => {
             </MenuItem>
           )}
           {categoriesList.map((category: any) => (
-            <MenuItem key={category._id} value={category._id}>
+            <MenuItem key={category.id} value={category.id}>
               {category.title}
             </MenuItem>
           ))}
@@ -195,7 +195,7 @@ const NewTransactionForm = ({ transaction, categories }: any) => {
               background: "white",
             }}
             type="number"
-            slotProps={{ htmlInput: { min: 1 } }}
+            slotProps={{ htmlInput: { min: 0.01, step: 0.001 } }}
             defaultValue={parsedTransaction.amount}
           />
           <TextField
@@ -237,4 +237,4 @@ const NewTransactionForm = ({ transaction, categories }: any) => {
   )
 }
 
-export default NewTransactionForm
+export default EditTransactionForm

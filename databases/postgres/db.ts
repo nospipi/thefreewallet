@@ -1,7 +1,45 @@
 import { PrismaClient } from "@prisma/client"
+import { updateWallet } from "./server_actions"
 
 const prismaClientSingleton = () => {
-  return new PrismaClient()
+  return new PrismaClient().$extends({
+    query: {
+      transaction: {
+        async create({ args, query }) {
+          const updatedTransaction = (await query(args)) as any
+          await updateWallet("save", updatedTransaction)
+
+          return updatedTransaction
+        },
+
+        async update({ args, query }) {
+          const prevTransaction = await prisma.transaction.findUnique({
+            where: { id: args.where.id },
+          })
+
+          if (!prevTransaction) throw new Error("Transaction not found")
+          const updatedTransaction = (await query(args)) as any
+          await updateWallet("update", prevTransaction, updatedTransaction)
+
+          return updatedTransaction
+        },
+
+        async delete({ args, query }) {
+          const transactionToDelete = await prisma.transaction.findUnique({
+            where: { id: args.where.id },
+          })
+
+          if (!transactionToDelete) throw new Error("Transaction not found")
+
+          const result = await query(args)
+
+          await updateWallet("delete", transactionToDelete)
+
+          return result
+        },
+      },
+    },
+  })
 }
 
 declare const globalThis: {
@@ -10,6 +48,6 @@ declare const globalThis: {
 
 const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
 
-export default prisma
-
 if (process.env.NODE_ENV !== "production") globalThis.prismaGlobal = prisma
+
+export default prisma

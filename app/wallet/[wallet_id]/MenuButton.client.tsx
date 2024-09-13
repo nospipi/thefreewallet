@@ -9,7 +9,7 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import { IconButton } from "@mui/material"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import MenuItem from "@mui/material/MenuItem"
-import DeleteBtn from "./DeleteBtn"
+import DeleteBtn from "./DeleteBtn.client"
 
 //-----------------------------------------------------------------------------
 
@@ -69,7 +69,7 @@ const MenuButton = () => {
       >
         <MenuItem
           onClick={() => {
-            router.push(`/wallet/${wallet_id}/add_transaction`);
+            router.push(`/wallet/${wallet_id}/add_transaction`)
           }}
           sx={{
             fontSize: "14px",
@@ -84,7 +84,7 @@ const MenuButton = () => {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            router.push(`/wallet/${wallet_id}/edit`);
+            router.push(`/wallet/${wallet_id}/edit`)
           }}
           sx={{
             fontSize: "14px",
@@ -114,7 +114,7 @@ const MenuButton = () => {
         </DeleteBtn>
       </Popover>
     </>
-  );
+  )
 }
 
 export default MenuButton

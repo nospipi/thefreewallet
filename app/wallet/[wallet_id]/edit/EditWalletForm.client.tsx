@@ -10,7 +10,6 @@ import { editWallet, IActionState } from "@/serverActionsDbDriver"
 //---------------------------------------------------------
 
 const EditWalletForm = ({ id, title }: { id: string; title: string }) => {
-  console.log("EditWalletForm id", id)
   const router = useRouter()
   const [state, action, isPending] = useActionState(editWallet, {
     success: null,

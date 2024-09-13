@@ -4,18 +4,18 @@
 //   getWalletCategoriesStats,
 // } from "@/serverActionsDbDriver"
 import { IWallet, ITransaction } from "@/databases/mongodb/models"
-import { getWallet } from "@/serverActionsDbDriver"
+import { getWallet, getTransactions } from "@/serverActionsDbDriver"
 import { IWalletCategoryStat } from "@/databases/mongodb/server_actions"
 import TransactionItem from "./TransactionItem"
 import { Suspense } from "react"
-import MenuButton from "./MenuButton"
-import WalletCategoriesChart from "./WalletCategoriesChart"
+import MenuButton from "./MenuButton.client"
+import WalletCategoriesChart from "./WalletCategoriesChart.client"
 
 //-----------------------------------------------------------------------------
 
-const TransactionDetailPage = async () => {
+const WalletPage = async () => {
   const wallet: IWallet = await getWallet()
-  //const transactions: ITransaction[] = await getTransactions()
+  const transactions: ITransaction[] = await getTransactions()
   // const walletCategoriesStats: IWalletCategoryStat[] =
   //   await getWalletCategoriesStats()
 
@@ -87,27 +87,24 @@ const TransactionDetailPage = async () => {
             {/* <WalletCategoriesChart /> */}
           </div>
 
-          {/* {transactions.length ? (
+          {transactions.length ? (
             transactions.map((transaction: any) => {
               return (
-                <TransactionItem
-                  key={transaction._id.toString()}
-                  id={transaction._id.toString()}
-                />
+                <TransactionItem key={transaction.id} id={transaction.id} />
               )
             })
           ) : (
             <></>
-          )} */}
+          )}
         </div>
-        {/* {!transactions.length && (
+        {!transactions.length && (
           <div className="flex flex-1 items-center justify-center">
             No transactions found
           </div>
-        )} */}
+        )}
       </div>
     </Suspense>
   )
 }
 
-export default TransactionDetailPage
+export default WalletPage

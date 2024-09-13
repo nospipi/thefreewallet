@@ -1,7 +1,6 @@
 import { Suspense } from "react"
 import { getWallets } from "@/serverActionsDbDriver"
-import Link from "next/link"
-// import {
+import Link from "next/link" // import {
 //   dehydrate,
 //   HydrationBoundary,
 //   QueryClient,
@@ -26,7 +25,6 @@ const Home = async () => {
           <h1 className="text-2xl font-semibold text-gray-800 mb-6">
             Select Wallet
           </h1>
-
           <Link href="/create_wallet">
             <button className="w-full mb-4 px-4 py-2 bg-theme-dark text-white rounded-md hover:bg-opacity-90">
               Create New Wallet

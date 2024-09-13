@@ -3,11 +3,7 @@ import { auth } from "@/auth"
 import { headers } from "next/headers"
 import { revalidatePath } from "next/cache"
 import prisma from "./db"
-import { nanoid } from "nanoid"
 
-const createUniqueId = async () => {
-  return nanoid(20)
-}
 //------------------------------------------------------------------------------
 
 export interface IActionState {
@@ -22,6 +18,124 @@ const newCategory = (input: string): string | false => {
 }
 
 //-----------------------------------------------------------------------------
+
+export type Transaction = {
+  id: string
+  wallet_id: string
+  category_id: string
+  amount: number
+  type: string
+  date: string
+  description: string
+}
+
+export const updateWallet = async (
+  action: "save" | "delete" | "update",
+  prevTransaction: Transaction,
+  updatedTransaction?: Transaction
+): Promise<void> => {
+  const wallet = await prisma.wallet.findUnique({
+    where: { id: prevTransaction.wallet_id },
+  })
+
+  if (!wallet) {
+    throw new Error("Wallet not found")
+  }
+
+  if (action === "save") {
+    if (prevTransaction.type === "expense") {
+      await prisma.wallet.update({
+        where: { id: wallet.id },
+        data: {
+          expenses_transactions_count: { increment: 1 },
+          transactions_count: { increment: 1 },
+          balance: { decrement: prevTransaction.amount },
+          expenses: { increment: prevTransaction.amount },
+        },
+      })
+    } else if (prevTransaction.type === "income") {
+      await prisma.wallet.update({
+        where: { id: wallet.id },
+        data: {
+          income_transactions_count: { increment: 1 },
+          transactions_count: { increment: 1 },
+          balance: { increment: prevTransaction.amount },
+          income: { increment: prevTransaction.amount },
+        },
+      })
+    }
+  }
+
+  if (action === "update") {
+    // Reverse the old transaction
+    if (prevTransaction.type === "expense") {
+      await prisma.wallet.update({
+        where: { id: wallet.id },
+        data: {
+          balance: { increment: prevTransaction.amount },
+          expenses: { decrement: prevTransaction.amount },
+          expenses_transactions_count: { decrement: 1 },
+        },
+      })
+    } else if (prevTransaction.type === "income") {
+      await prisma.wallet.update({
+        where: { id: wallet.id },
+        data: {
+          balance: { decrement: prevTransaction.amount },
+          income: { decrement: prevTransaction.amount },
+          income_transactions_count: { decrement: 1 },
+        },
+      })
+    }
+
+    // Apply the updated transaction
+    if (updatedTransaction?.type === "expense") {
+      await prisma.wallet.update({
+        where: { id: wallet.id },
+        data: {
+          balance: { decrement: updatedTransaction.amount },
+          expenses: { increment: updatedTransaction.amount },
+          expenses_transactions_count: { increment: 1 },
+        },
+      })
+    } else if (updatedTransaction?.type === "income") {
+      await prisma.wallet.update({
+        where: { id: wallet.id },
+        data: {
+          balance: { increment: updatedTransaction.amount },
+          income: { increment: updatedTransaction.amount },
+          income_transactions_count: { increment: 1 },
+        },
+      })
+    }
+  }
+
+  if (action === "delete") {
+    if (prevTransaction.type === "expense") {
+      await prisma.wallet.update({
+        where: { id: wallet.id },
+        data: {
+          balance: { increment: prevTransaction.amount },
+          expenses: { decrement: prevTransaction.amount },
+          expenses_transactions_count: { decrement: 1 },
+          transactions_count: { decrement: 1 },
+        },
+      })
+    } else if (prevTransaction.type === "income") {
+      await prisma.wallet.update({
+        where: { id: wallet.id },
+        data: {
+          balance: { decrement: prevTransaction.amount },
+          income: { decrement: prevTransaction.amount },
+          income_transactions_count: { decrement: 1 },
+          transactions_count: { decrement: 1 },
+        },
+      })
+    }
+  }
+}
+
+//------------------------------------------------------------------------------
 
 const getWallets = async (): Promise<any> => {
   const session = await auth()
@@ -108,7 +222,6 @@ const editWallet = async (
     const title = formData.get("title") as string
     const user = session?.user?.email as string
     const id = formData.get("id") as string
-    console.log("id", id)
 
     await prisma.wallet.update({
       where: {
@@ -214,32 +327,6 @@ const getWalletCategoriesStats = async (): Promise<IWalletCategoryStat[]> => {
   ]
 }
 
-//MONGO
-// const addCategory = async (formData: FormData): Promise<IActionState> => {
-//   try {
-//     await connectDB()
-//     const session = await auth()
-//     const title = formData.get("title") as string
-//     const user = session?.user?.email as string
-
-//     const category = new CategoryModel({ title, user })
-//     await category.save()
-//     revalidatePath(`/`, "page")
-//     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
-//     return { success: `Category ${title} created successfully`, error: null }
-//   } catch (error: any) {
-//     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
-//     if (error.code === 11000) {
-//       return {
-//         success: null,
-//         error: "Category with that title already exists",
-//       }
-//     }
-//     return { success: null, error: error?.message || "An error occurred" }
-//   }
-// }
-
-//POSTGRES
 const addCategory = async (formData: FormData): Promise<IActionState> => {
   try {
     const session = await auth()
@@ -267,24 +354,6 @@ const addCategory = async (formData: FormData): Promise<IActionState> => {
   }
 }
 
-//MONGO
-// const getTransactions = async (): Promise<any> => {
-//   try {
-//     await connectDB()
-//     const headerList = headers()
-//     const pathname = headerList.get("x-current-path")
-//     const segments = pathname?.split("/") || []
-//     const wallet_id = segments[2] || ""
-//     const transactions = await TransactionModel.find({ wallet_id }).sort({
-//       date: -1,
-//     })
-//     return transactions
-//   } catch (error: any) {
-//     return error?.message || "An error occurred"
-//   }
-// }
-
-//POSTGRES
 const getTransactions = async (): Promise<any> => {
   try {
     const headerList = headers()
@@ -307,95 +376,19 @@ const getTransactions = async (): Promise<any> => {
   }
 }
 
-//MONGO
-// const getTransaction = async (): Promise<any> => {
-//   try {
-//     await connectDB()
-//     const headerList = headers()
-//     const pathname = headerList.get("x-current-path")
-//     const segments = pathname?.split("/") || []
-//     const id = segments[2] || ""
-//     const transaction = await TransactionModel.findOne({ _id: id })
-//     return transaction
-//   } catch (error: any) {
-//     return error?.message || "An error occurred"
-//   }
-// }
-
-//POSTGRES
-const getTransaction = async (): Promise<any> => {
+const getTransaction = async (id: string): Promise<any> => {
   try {
-    const headerList = headers()
-    const pathname = headerList.get("x-current-path")
-    const segments = pathname?.split("/") || []
-    const id = segments[2] || ""
-
     const res = await prisma.transaction.findUnique({
       where: {
         id: id,
       },
     })
-
     return res
   } catch (error: any) {
     return error?.message || "An error occurred"
   }
 }
 
-//MONGO
-// const createTransaction = async (
-//   previousState: IActionState,
-//   formData: FormData
-// ): Promise<IActionState> => {
-//   try {
-//     await connectDB()
-//     const session = await auth()
-//     const description = formData.get("description") as string
-//     const amount = formData.get("amount") as string
-//     const date = formData.get("date") as string
-//     const user = session?.user?.email as string
-//     const type = formData.get("type") as string
-//     const wallet_id = formData.get("wallet_id") as string
-//     let category_id = formData.get("category_id") as string
-
-//     //determine if a new category flag was added from the form
-//     //NEW_CATEGORY=sometitle_7458TYH87
-//     const isNewCategory = newCategory(category_id)
-
-//     if (isNewCategory) {
-//       const title = isNewCategory
-//       const category = new CategoryModel({ title, user })
-//       await category.save()
-//       category_id = category._id
-//     }
-
-//     const payload = {
-//       wallet_id: wallet_id,
-//       category_id: category_id,
-//       type,
-//       amount,
-//       date,
-//       description,
-//     }
-
-//     const transaction = new TransactionModel(payload)
-//     await transaction.save()
-//     revalidatePath(`/wallet/${wallet_id}`, "page")
-//     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
-//     return { success: `Transaction created successfully`, error: null }
-//   } catch (error: any) {
-//     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
-//     if (error.code === 11000) {
-//       return {
-//         success: null,
-//         error: "Category with that title already exists",
-//       }
-//     }
-//     return { success: null, error: error?.message || "An error occurred" }
-//   }
-// }
-
-//POSTGRES
 const createTransaction = async (
   previousState: IActionState,
   formData: FormData
@@ -429,7 +422,7 @@ const createTransaction = async (
       wallet_id: wallet_id,
       category_id: category_id,
       type,
-      amount,
+      amount: parseFloat(amount),
       date,
       description,
     }
@@ -452,54 +445,6 @@ const createTransaction = async (
   }
 }
 
-//MONGO
-// const editTransaction = async (
-//   previousState: IActionState,
-//   formData: FormData
-// ): Promise<IActionState> => {
-//   try {
-//     await connectDB()
-//     const session = await auth()
-//     const description = formData.get("description") as string
-//     const amount = formData.get("amount") as string
-//     const date = formData.get("date") as string
-//     const user = session?.user?.email as string
-//     const type = formData.get("type") as string
-//     const wallet_id = formData.get("wallet_id") as string
-//     let category_id = formData.get("category_id") as string
-//     const id = formData.get("id") as string
-
-//     //determine if a new category flag was added from the form
-//     //NEW_CATEGORY=sometitle_7458TYH87
-//     const isNewCategory = newCategory(category_id)
-
-//     if (isNewCategory) {
-//       const title = isNewCategory
-//       const category = new CategoryModel({ title, user })
-//       await category.save()
-//       category_id = category._id
-//     }
-
-//     const payload = {
-//       wallet_id: wallet_id,
-//       category_id: category_id,
-//       type,
-//       amount,
-//       date,
-//       description,
-//     }
-//     //throw new Error("test error"); // Simulate error
-//     await TransactionModel.findOneAndUpdate({ _id: id }, payload)
-//     revalidatePath(`/transaction/${id}`, "page")
-//     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
-//     return { success: `Transaction updated successfully`, error: null }
-//   } catch (error: any) {
-//     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
-//     return { success: null, error: error?.message || "An error occurred" }
-//   }
-// }
-
-//POSTGRES
 const editTransaction = async (
   previousState: IActionState,
   formData: FormData
@@ -535,7 +480,7 @@ const editTransaction = async (
       wallet_id: wallet_id,
       category_id: category_id,
       type,
-      amount,
+      amount: parseFloat(amount),
       date,
       description,
     }
@@ -561,28 +506,6 @@ const editTransaction = async (
   }
 }
 
-//MONGO
-
-// const deleteTransaction = async (): Promise<IActionState> => {
-//   try {
-//     await connectDB()
-//     const headerList = headers()
-//     const pathname = headerList.get("x-current-path")
-//     const segments = pathname?.split("/") || []
-//     const id = segments[2] || ""
-//     //throw new Error("test error") // Simulate error
-//     await TransactionModel.findOneAndDelete({ _id: id })
-//     revalidatePath(`/transaction/${id}`, "page")
-//     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
-
-//     return { success: `Transaction deleted successfully`, error: null }
-//   } catch (error: any) {
-//     //await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate slow network
-//     return { success: null, error: error?.message || "An error occurred" }
-//   }
-// }
-
-//POSTGRES
 const deleteTransaction = async (): Promise<IActionState> => {
   try {
     const headerList = headers()
@@ -611,8 +534,8 @@ export {
   editWallet,
   deleteWallet,
   getCategories,
-  getWalletCategoriesStats,
   getCategory,
+  getWalletCategoriesStats,
   getTransactions,
   getTransaction,
   createTransaction,
@@ -621,11 +544,3 @@ export {
 }
 
 //------------------------------------------------------------------------------
-
-//   return redirect(
-//     `/create_wallet?wallet_created_success=Wallet ${title} created successfully`
-//   ); // https://nextjs.org/docs/app/api-reference/functions/redirect
-//   // ⓘ In Server Actions and Route Handlers, redirect should be called after the try/catch block.
-
-//if (error.message === "NEXT_REDIRECT") throw error; //https://stackoverflow.com/a/78081880/14718856 //next redirect returns error by default so we intercept it
-//return redirect(`/create_wallet?wallet_created_error=${error?.message}`);
