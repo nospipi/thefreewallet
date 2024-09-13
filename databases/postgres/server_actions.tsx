@@ -181,12 +181,10 @@ const createWallet = async (
   formData: FormData
 ): Promise<IActionState> => {
   try {
-    // Assume `auth()` returns a session object with user details
     const session = await auth()
     const title = formData.get("title") as string
     const user = session?.user?.email as string
 
-    // Insert the new wallet into the database
     await prisma.wallet.create({
       data: {
         title: title,
@@ -196,7 +194,6 @@ const createWallet = async (
 
     revalidatePath(`/`, "page")
 
-    // Simulate slow network or other processing if needed
     // await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Successful response
@@ -284,16 +281,6 @@ const getCategories = async (): Promise<any> => {
     return error?.message || "An error occurred"
   }
 }
-
-// const getCategory = async (id: string): Promise<any> => {
-//   try {
-//     await connectDB()
-//     const category = await CategoryModel.findById(id)
-//     return category
-//   } catch (error: any) {
-//     return error?.message || "An error occurred"
-//   }
-// }
 
 const getCategory = async (id: string): Promise<any> => {
   try {
