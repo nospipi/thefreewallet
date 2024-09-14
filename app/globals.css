@@ -25,3 +25,21 @@ body {
   justify-content: space-between;
   background: #8d8d8d;
 }
+.recharts-surface {
+  outline: none !important;
+}
+
+.recharts-text,
+.recharts-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* tspan {
+    width: 20px;
+    background: red;
+    color: red;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  } */
+}

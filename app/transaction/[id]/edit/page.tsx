@@ -1,11 +1,17 @@
-import EditTransactionForm from "./EditTransactionForm"
+import EditTransactionForm from "./EditTransactionForm.client"
 import { getTransaction, getCategories } from "@/serverActionsDbDriver"
 import { ITransaction, ICategory } from "@/databases/mongodb/models"
+import { headers } from "next/headers"
 
 //-------------------------------------------------------------------------
 
 const TransactionEditPage = async () => {
-  const transaction: ITransaction = await getTransaction()
+  const headerList = headers()
+  const pathname = headerList.get("x-current-path")
+  const segments = pathname?.split("/") || []
+  const id = segments[2] || ""
+
+  const transaction: ITransaction = await getTransaction(id)
   const categories: ICategory[] = await getCategories()
 
   return (

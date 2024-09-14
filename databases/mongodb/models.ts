@@ -1,6 +1,22 @@
 import mongoose from "mongoose"
 const uniqueValidator = require("mongoose-unique-validator")
-import moment from "moment"
+
+//--------------------------------------------------------------------------------------------
+
+// the below modifies the response when is passed to the client (converted to json by default) or converted to json explicitly in the BE
+mongoose.set("toJSON", {
+  //the below adds the virtual id field which is the same as default mongo ObjectId -->  _id.toString()
+  //i need this to have consistent id field between mongo and postgres (postgres cannot have _id as it is against field naming rules)
+  virtuals: true,
+  //the below removes the _id field from the response because we dont need it in json format
+  transform: (doc, converted) => {
+    delete converted._id
+  },
+  //this removes the default mongo __v field
+  versionKey: false,
+})
+
+//--------------------------------------------------------------------------------------------
 
 export interface IWallet extends mongoose.Document {
   _id: string
@@ -24,7 +40,6 @@ export interface ITransaction extends mongoose.Document {
   _id: string
   wallet_id: string
   category_id: string
-  user: string
   amount: number
   type: string
   date: string
@@ -83,14 +98,9 @@ const transactionSchema = new mongoose.Schema<ITransaction>(
   {
     wallet_id: { type: String, required: true },
     category_id: { type: String, required: true },
-    user: { type: String, required: true },
     amount: { type: Number, required: true },
     type: { type: String, required: true },
-    date: {
-      type: String,
-      default: moment().format("YYYY-MM-DD"),
-      required: true,
-    },
+    date: { type: String, required: true },
     description: { type: String, required: true },
   },
   { timestamps: true }

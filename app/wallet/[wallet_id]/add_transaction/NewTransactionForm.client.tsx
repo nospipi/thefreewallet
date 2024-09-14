@@ -101,7 +101,7 @@ const NewTransactionForm = ({ categories }: any) => {
             </MenuItem>
           )}
           {categoriesList.map((category: any) => (
-            <MenuItem key={category._id} value={category._id}>
+            <MenuItem key={category.id} value={category.id}>
               {category.title}
             </MenuItem>
           ))}
@@ -132,7 +132,7 @@ const NewTransactionForm = ({ categories }: any) => {
               setCategoriesList([
                 ...categoriesList,
                 {
-                  _id: `NEW_CATEGORY=${newCategory}_${randomId}`,
+                  id: `NEW_CATEGORY=${newCategory}_${randomId}`,
                   title: newCategory,
                 },
               ])

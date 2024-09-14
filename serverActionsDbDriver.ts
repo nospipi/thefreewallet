@@ -14,6 +14,7 @@ export type FormFunction = (
 export type FormFunctionWithoutInput = () => Promise<IActionState>
 
 interface IDatabaseActions {
+  getWallets: () => Promise<any>
   getWallet: () => Promise<any>
   createWallet: FormFunction
   editWallet: FormFunction
@@ -22,19 +23,25 @@ interface IDatabaseActions {
   getWalletCategoriesStats: () => Promise<any>
   getCategory: (id: string) => Promise<any>
   getTransactions: () => Promise<any>
-  getTransaction: () => Promise<any>
+  getTransaction: (id: string) => Promise<any>
   createTransaction: FormFunction
   editTransaction: FormFunction
   deleteTransaction: FormFunctionWithoutInput
-  // Add other action types here if needed
 }
 
 const getDbActions = async (): Promise<IDatabaseActions> => {
   if (DATABASE === "MONGODB") {
     return await import("@/databases/mongodb/server_actions")
+  } else if (DATABASE === "POSTGRES") {
+    return await import("@/databases/postgres/server_actions")
   } else {
     throw new Error("DATABASE environment variable is not set or is invalid")
   }
+}
+
+export const getWallets = async (): Promise<any> => {
+  const actions = await getDbActions()
+  return actions.getWallets()
 }
 
 export const getWallet = async (): Promise<any> => {
@@ -72,9 +79,9 @@ export const getTransactions = async (): Promise<any> => {
   return actions.getTransactions()
 }
 
-export const getTransaction = async (): Promise<any> => {
+export const getTransaction = async (id: string): Promise<any> => {
   const actions = await getDbActions()
-  return actions.getTransaction()
+  return actions.getTransaction(id)
 }
 
 export const createTransaction: FormFunction = async (

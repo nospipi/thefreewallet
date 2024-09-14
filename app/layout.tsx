@@ -3,8 +3,8 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { auth } from "@/auth"
-import SessionProvider from "./components/SessionProvider"
-import NavMenu from "./components/NavMenu"
+import SessionProvider from "./SessionProvider.client"
+import NavMenu from "./NavMenu.client"
 import { Toaster } from "react-hot-toast"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "TheFreeWallet",
   description: "A simple and free budgeting tool",
-};
+}
 
 //---------------------------------------------------------
 

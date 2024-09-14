@@ -1,9 +1,6 @@
 import Link from "next/link"
 import moment from "moment"
-const {
-  TransactionModel,
-  CategoryModel,
-} = require("@/databases/mongodb/models")
+import { getTransaction, getCategory } from "@/serverActionsDbDriver"
 
 //-----------------------------------------------------------------------------
 
@@ -12,8 +9,8 @@ interface TransactionItemProps {
 }
 
 const TransactionItem = async ({ id }: TransactionItemProps) => {
-  const transaction = await TransactionModel.findById(id)
-  const category = await CategoryModel.findById(transaction.category_id)
+  const transaction = await getTransaction(id)
+  const category = await getCategory(transaction?.category_id)
 
   return (
     <Link href="/transaction/[id]" as={`/transaction/${id}`}>

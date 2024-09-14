@@ -1,25 +1,26 @@
-import {
-  getWallet,
-  getTransactions,
-  getWalletCategoriesStats,
-} from "@/serverActionsDbDriver"
-import { IWallet, ITransaction } from "@/databases/mongodb/models"
-import { IWalletCategoryStat } from "@/databases/mongodb/server_actions"
-import TransactionItem from "./TransactionItem"
-import { Suspense } from "react"
-import MenuButton from "./MenuButton"
-import WalletCategoriesChart from "./WalletCategoriesChart"
+// import {
+//   getWallet,
+//   getTransactions,
+//   getWalletCategoriesStats,
+// } from "@/serverActionsDbDriver"
+import { IWallet, ITransaction } from "@/databases/mongodb/models";
+import { getWallet, getTransactions } from "@/serverActionsDbDriver";
+import { IWalletCategoryStat } from "@/databases/mongodb/server_actions";
+import TransactionItem from "./TransactionItem";
+import { Suspense } from "react";
+import MenuButton from "./MenuButton.client";
+import WalletCategoriesChart from "./WalletCategoriesChart.client";
 
 //-----------------------------------------------------------------------------
 
-const TransactionDetailPage = async () => {
-  const wallet: IWallet = await getWallet()
-  const transactions: ITransaction[] = await getTransactions()
-  const walletCategoriesStats: IWalletCategoryStat[] =
-    await getWalletCategoriesStats()
+const WalletPage = async () => {
+  const wallet: IWallet = await getWallet();
+  const transactions: ITransaction[] = await getTransactions();
+  // const walletCategoriesStats: IWalletCategoryStat[] =
+  //   await getWalletCategoriesStats()
 
-  const data = walletCategoriesStats.map((item: any) => item.amount)
-  const labels = walletCategoriesStats.map((item: any) => item.title)
+  // const data = walletCategoriesStats.map((item: any) => item.amount)
+  // const labels = walletCategoriesStats.map((item: any) => item.title)
 
   return (
     <Suspense
@@ -79,19 +80,19 @@ const TransactionDetailPage = async () => {
                 €{wallet?.balance.toFixed(2)}
               </p>
             </div>
-            {walletCategoriesStats.length ? (
+
+            {/* {walletCategoriesStats && (
               <WalletCategoriesChart data={data} labels={labels} />
-            ) : null}
+            )} */}
+
+            {/* <WalletCategoriesChart /> */}
           </div>
 
           {transactions.length ? (
             transactions.map((transaction: any) => {
               return (
-                <TransactionItem
-                  key={transaction._id.toString()}
-                  id={transaction._id.toString()}
-                />
-              )
+                <TransactionItem key={transaction.id} id={transaction.id} />
+              );
             })
           ) : (
             <></>
@@ -104,7 +105,7 @@ const TransactionDetailPage = async () => {
         )}
       </div>
     </Suspense>
-  )
-}
+  );
+};
 
-export default TransactionDetailPage
+export default WalletPage;
