@@ -1,6 +1,9 @@
 {
-  "name": "guidematch-gr",
-  "version": "0.1.0",
+  "name": "thefreewallet",
+  "prisma": {
+    "schema": "databases/postgres/schema.prisma"
+  },
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",

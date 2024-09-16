@@ -16,6 +16,7 @@ import WalletCategoriesChart from "./WalletCategoriesChart.client";
 const WalletPage = async () => {
   const wallet: IWallet = await getWallet();
   const transactions: ITransaction[] = await getTransactions();
+
   // const walletCategoriesStats: IWalletCategoryStat[] =
   //   await getWalletCategoriesStats()
 
@@ -80,7 +81,6 @@ const WalletPage = async () => {
                 €{wallet?.balance.toFixed(2)}
               </p>
             </div>
-
             {/* {walletCategoriesStats && (
               <WalletCategoriesChart data={data} labels={labels} />
             )} */}
