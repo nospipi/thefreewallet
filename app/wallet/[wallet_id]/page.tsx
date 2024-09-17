@@ -18,6 +18,7 @@ const WalletPage = async () => {
 
   const walletCategoriesStats: IWalletCategoryStat[] =
     await getWalletCategoriesStats()
+  console.log(walletCategoriesStats)
 
   const data = walletCategoriesStats.map((item: any) => item.amount)
   const labels = walletCategoriesStats.map((item: any) => item.title)
@@ -80,9 +81,9 @@ const WalletPage = async () => {
                 €{wallet?.balance.toFixed(2)}
               </p>
             </div>
-            {walletCategoriesStats && (
+            {walletCategoriesStats.length ? (
               <WalletCategoriesChart data={data} labels={labels} />
-            )}
+            ) : null}
           </div>
 
           {transactions.length ? (
