@@ -1,5 +1,4 @@
-"use server"
-const DATABASE = process.env.DATABASE //not working without "use server"
+const DATABASE = process.env.DATABASE
 
 export interface IActionState {
   success: string | null
