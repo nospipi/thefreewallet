@@ -104,16 +104,6 @@ export const deleteTransaction: FormFunctionWithoutInput = async () => {
   return actions.deleteTransaction()
 }
 
-// const getCategory = async (id: string): Promise<any> => {
-//   try {
-//     await connectDB()
-//     const category = await CategoryModel.findById(id)
-//     return category
-//   } catch (error: any) {
-//     return error?.message || "An error occurred"
-//   }
-// }
-
 export const getCategory = async (id: string): Promise<any> => {
   const actions = await getDbActions()
   return actions.getCategory(id)
