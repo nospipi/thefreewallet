@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { getWallets } from "@/serverActionsDbDriver"
+import { getWallets } from "@/lib/serverActionsDbDriver"
 import Link from "next/link" // import {
 //   dehydrate,
 //   HydrationBoundary,

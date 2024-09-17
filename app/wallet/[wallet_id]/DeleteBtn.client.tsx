@@ -1,5 +1,5 @@
 "use client"
-import { deleteWallet } from "@/serverActionsDbDriver"
+import { deleteWallet } from "@/lib/serverActionsDbDriver"
 import { useRouter } from "next/navigation"
 import { toast } from "react-hot-toast"
 

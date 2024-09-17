@@ -1,5 +1,5 @@
 import EditTransactionForm from "./EditTransactionForm.client"
-import { getTransaction, getCategories } from "@/serverActionsDbDriver"
+import { getTransaction, getCategories } from "@/lib/serverActionsDbDriver"
 import { ITransaction, ICategory } from "@/databases/mongodb/models"
 import { headers } from "next/headers"
 

@@ -6,7 +6,7 @@ import {
   ICategory,
 } from "./models"
 import { auth } from "@/auth"
-import connectDB from "../../db.connect"
+import connectDB from "./db.connect"
 import { headers } from "next/headers"
 import { revalidatePath } from "next/cache"
 //import { redirect } from "next/navigation"

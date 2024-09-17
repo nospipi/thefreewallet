@@ -1,7 +1,7 @@
 import { Suspense } from "react"
 import Link from "next/link"
 import DeleteBtn from "../DeleteBtn.client"
-import { getTransaction, getCategory } from "@/serverActionsDbDriver"
+import { getTransaction, getCategory } from "@/lib/serverActionsDbDriver"
 import { ITransaction, ICategory } from "@/databases/mongodb/models"
 import moment from "moment"
 import { headers } from "next/headers"

@@ -1,6 +1,6 @@
 import Link from "next/link"
 import moment from "moment"
-import { getTransaction, getCategory } from "@/serverActionsDbDriver"
+import { getTransaction, getCategory } from "@/lib/serverActionsDbDriver"
 
 //-----------------------------------------------------------------------------
 

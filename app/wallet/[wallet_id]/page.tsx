@@ -3,7 +3,7 @@ import {
   getWallet,
   getTransactions,
   getWalletCategoriesStats,
-} from "@/serverActionsDbDriver"
+} from "@/lib/serverActionsDbDriver"
 import { IWalletCategoryStat } from "@/databases/mongodb/server_actions"
 import TransactionItem from "./TransactionItem"
 import { Suspense } from "react"
@@ -18,7 +18,6 @@ const WalletPage = async () => {
 
   const walletCategoriesStats: IWalletCategoryStat[] =
     await getWalletCategoriesStats()
-  console.log(walletCategoriesStats)
 
   const data = walletCategoriesStats.map((item: any) => item.amount)
   const labels = walletCategoriesStats.map((item: any) => item.title)

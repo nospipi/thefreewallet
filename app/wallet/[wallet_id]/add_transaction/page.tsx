@@ -1,5 +1,5 @@
 import NewTransactionForm from "./NewTransactionForm.client"
-import { getCategories } from "@/serverActionsDbDriver"
+import { getCategories } from "@/lib/serverActionsDbDriver"
 import { ICategory } from "@/databases/mongodb/models"
 
 //-------------------------------------------------------------------------

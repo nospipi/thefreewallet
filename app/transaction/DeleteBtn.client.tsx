@@ -1,5 +1,5 @@
 "use client"
-import { deleteTransaction } from "@/serverActionsDbDriver";
+import { deleteTransaction } from "@/lib/serverActionsDbDriver"
 import { useRouter } from "next/navigation"
 import { toast } from "react-hot-toast"
 
