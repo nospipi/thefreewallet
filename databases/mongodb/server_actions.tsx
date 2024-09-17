@@ -184,7 +184,7 @@ const getWalletCategoriesStats = async (): Promise<IWalletCategoryStat[]> => {
       }
 
       return acc
-    }, [])
+    }, [] as ICategory[])
 
     //----------------------------------------------
 

@@ -6,6 +6,12 @@ import prisma from "./db"
 
 //------------------------------------------------------------------------------
 
+export interface ICategory {
+  id: string
+  title: string
+  user: string
+}
+
 export interface IActionState {
   success: string | null
   error: string | null
@@ -302,16 +308,67 @@ export interface IWalletCategoryStat {
 }
 
 const getWalletCategoriesStats = async (): Promise<IWalletCategoryStat[]> => {
-  return [
-    {
-      title: "SUPER MARKET",
-      amount: 100,
-    },
-    {
-      title: "UTILITIES",
-      amount: 50,
-    },
-  ]
+  try {
+    const session = await auth()
+    const user = session?.user?.email as string
+    const headerList = headers()
+    const pathname = headerList.get("x-current-path")
+    const segments = pathname?.split("/") || []
+    const wallet_id = segments[2] || ""
+    //----------------------------------------------
+    const categories = await prisma.category.findMany({
+      where: {
+        user: user,
+      },
+    })
+
+    const transactions = await prisma.transaction.findMany({
+      where: {
+        wallet_id: wallet_id,
+        type: "expense",
+      },
+    })
+
+    //there are no transactions with type expense
+    if (!transactions.length) return []
+    const categoriesInExpenses = transactions.reduce((acc, transaction) => {
+      const category = categories.find(
+        (category) =>
+          category.id.toString() === transaction.category_id.toString()
+      )
+
+      // Check if category is already in the accumulator by its _id
+      if (category && !acc.some((c: any) => c.id === category.id)) {
+        acc.push(category)
+      }
+
+      return acc
+    }, [] as ICategory[])
+
+    //----------------------------------------------
+
+    const stats = categoriesInExpenses.map((category: ICategory) => {
+      const transactionsByCategory = transactions.filter(
+        (transaction) => transaction.category_id.toString() === category.id
+      )
+      const amount = transactionsByCategory.reduce((acc, transaction) => {
+        if (transaction.type === "expense") {
+          acc -= transaction.amount
+        } else {
+          acc += transaction.amount
+        }
+        return acc
+      }, 0)
+      return {
+        title: category.title,
+        amount: Math.abs(amount), //return the positive value
+      }
+    })
+
+    return stats
+  } catch (error: any) {
+    return error?.message || "An error occurred"
+  }
 }
 
 const addCategory = async (formData: FormData): Promise<IActionState> => {
