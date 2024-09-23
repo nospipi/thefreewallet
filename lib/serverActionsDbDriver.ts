@@ -1,3 +1,4 @@
+"use server"
 const DATABASE = process.env.DATABASE
 
 export interface IActionState {
