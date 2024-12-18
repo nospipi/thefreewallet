@@ -2,7 +2,6 @@
 import { auth } from "@/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
-import { nanoid } from "nanoid";
 import prisma from "./db";
 
 //------------------------------------------------------------------------------
@@ -573,13 +572,13 @@ const deleteTransaction = async (): Promise<IActionState> => {
 };
 
 const supabaseKeepAliveOperation = async () => {
-  //create a wallet to keep the supabase project alive
-  await prisma.wallet.create({
+  //add a log row to keep the supabase project alive
+  await prisma.log.create({
     data: {
-      title: `keep-alive-wallet-${nanoid()}`, //we need unique to avoid unique constraints
-      user: `keep-alive-user-${nanoid()}`,
+      action: "supabaseKeepAliveOperation",
     },
   });
+
   return;
 };
 

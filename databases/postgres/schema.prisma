@@ -11,6 +11,12 @@ datasource db {
   directUrl = env("DIRECT_URL") //supabase
 }
 
+model Log {
+  id        String   @id @default(cuid())
+  action    String
+  createdAt DateTime @default(now())
+}
+
 model Category {
   id          String        @id @default(cuid())
   title       String
