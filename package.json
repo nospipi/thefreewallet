@@ -23,6 +23,7 @@
     "@prisma/client": "^5.19.1",
     "@types/react": "npm:types-react@rc",
     "@types/react-dom": "npm:types-react-dom@rc",
+    "@vercel/analytics": "^1.4.1",
     "@vercel/postgres": "^0.10.0",
     "axios": "^1.7.3",
     "moment": "^2.30.1",
